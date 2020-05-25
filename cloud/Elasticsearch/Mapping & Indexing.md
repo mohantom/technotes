@@ -1,0 +1,176 @@
+
+
+
+# Mapping and indexing data
+- Character filters: remove html encoding
+- Tokenizer: split on whitespace, punctuation
+- Token filter: lowercasing, stemming synonyms, stopwords
+- Choices: standard, simple, whitespace, language
+
+## Import single movie via json
+POST localhost:9200/movies/_doc/109487
+```javascript
+postbody = {
+	"genre": ["IMAX", "Sci-Fi"],
+	"title": "Interstellar",
+	"year": 2014
+}
+
+```
+
+## Import bulk movies
+[movies](http://media.sundog-soft.com/es7/movies.json)
+```shell script
+curl -o movies.json http://media.sundog-soft.com/es7/movies.json
+curl -H "Content-Type: application/json" -XPOST localhost:9200/_bulk --data-binary @movies.json
+```
+
+##  Update data
+Doc is immutable, has _version field. Old doc is deleted later
+```shell script
+PUT localhost:9200/movies/_doc/109487 -d $full_update_object
+POST localhost:9200/movies/_doc/109487/_update -d '
+{
+	"doc": {
+		"title": "Interstellar"
+	}
+}'
+```
+
+
+## Delete data
+```shell script
+DELETE localhost:9200/movies/_doc/58559
+```
+
+
+## Concurrency issue
+Optimistic concurrency control
+Get page count -> return count with _seq_no (similar to version) -> only one will succeed to update
+retry_on_conflicts=5 to automatically retry
+
+## Analyzers and tokenizers
+```shell script
+GET localhost:9200/movies/_search // Actually returns "Star Trek" and "Star Wars"
+{
+    "query": {
+        "match": {  # or "match_phrase"
+            "title": "Star Trek"
+        }
+    }
+}
+```
+
+
+For exact match, we'll need delete and re-create the mapping. DELETE /movies
+```shell script
+PUT localhost:9200/movies
+{
+    "mappings": {
+        "properties": {
+            "id": {
+                "type": "integer"
+            },
+            "year": {
+                "type": "date"
+            },
+            "genre": {
+                "type": "keyword"	# exact match
+            },
+            "title": {
+                "type": "text",	# partial match
+                "analyzer": "english"
+            }
+        }
+    }
+}
+```
+
+Then re-import movies.json, now search for genre will be exact match (and case sensitive)
+```shell script
+GET localhost:9200/series/_search
+{
+    "query": {
+        "match": {
+            "genre": "Sci-Fi"
+        }
+    }
+}
+```
+
+
+## Data model and parent/child relationship
+Rating (userId, movieId, rating) -> Movie (movieId, title, genres)
+In RDBMS, it needs two queries or join
+Denormalize -> userId, rating, title; this will take more space, but much easier to query
+
+Star Wars: Clone Wars, Empire Strikes Back, The Last Jedi
+Load mapping to ES7
+```shell script
+PUT /series
+{
+    "mappings": {
+        "properties": {
+            "film_to_franchise": {
+                "type": "join",
+                "relations": {
+                    "franchise": "film"
+                }
+            }
+        }
+    }
+}
+```
+
+load series data to ES7
+```shell script
+http://media.sundog-soft.com/es7/series.json
+POST /series/_bulk
+```
+
+find all movies of "Star Wars" series
+```shell script
+GET localhost:9200/series/_search
+{
+    "query": {
+        "has_parent": {
+            "parent_type": "franchise",
+            "query": {
+                "match": {
+                    "title": "Star Wars"
+                }
+            }
+        }
+    }
+}
+```
+
+find the move with child film
+```shell script
+GET localhost:9200/series/_search
+{
+    "query": {
+        "has_child": {
+            "type": "film",
+            "query": {
+                "match": {
+                    "title": "The Force Awaken"
+                }
+            }
+        }
+    }
+}
+```
+
+
+## Flattened datatype
+Sub fields may change -> triggers cluster state change -> mapping explosion
+```GET localhost:9200/_cluster/state```
+Use flattened datatype: new sub fields are ignored.
+Use this to find sub-field: `host.osVersion`: "Bionic Beaver"
+Drawback: added sub fields are analyzed, have to use exact keywords
+
+## Mapping exceptions
+Explicit mapping (user defined): mapping exception when there is a mismatch; similar to DB column type mismatch
+ dynamic mapping (ES defined automatically): mapping explosion
+
