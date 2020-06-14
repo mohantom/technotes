@@ -1,4 +1,5 @@
 Kafka vs MQ
+--------------------
 1.	Pub-sub vs JMS based messaging queue
 a.	Multiple consumers
 2.	Retention (7 days for Kafka) -> replay; MQ consumes then deleted
