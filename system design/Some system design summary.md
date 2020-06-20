@@ -1,0 +1,646 @@
+我的System Design总结
+======================
+发信人: flamingos (flamingos), 信区: JobHunting
+标  题: 我的System Design总结
+发信站: BBS 未名空间站 (Mon Sep  8 02:49:55 2014, 美东)
+
+我的面试也结束了 因为知道FLAG这类公司都会问到System Design的问题 所以这次面
+试着重准备了一下 在这里分享给大家 如果有不对或者需要补充的地方 大家可以留言
+
+这里说的System Design和OO Design不同 System Design在FLAG以及很多大公司中主要
+是design scalable distributed systems 这里只讨论如何准备这种题目
+
+== 入门 ==
+对于0基础的同学们 下面的资料可以按顺序开始看
+1. http://www.hiredintech.com/app#system-design
+这是一个专门准备面试的网站 你只用关心system design部分 有很多的link后面会重
+复提到 建议看完至少一遍
+
+2. https://www.youtube.com/watch?v=-W9F__D3oY4
+非常非常好的入门资料 建议看3遍以上！
+这是1里面提到的资料 是Harvard web app课的最后一节 讲scalability 里面会讲到很
+多基础概念比如Vertical scaling, Horizontal scaling, Caching, Load balancing,
+Database replication, Database partitioning 还会提到很多基本思想比如avoid 
+single point of failure
+再强调一遍 非常好的资料！
+
+3. http://www.lecloud.net/post/7295452622/scalability-for-dummies-part-1-clones
+1里面提到的 Scalability for Dummies 还算不错 可以看一遍 知道基本思想
+
+结束语：当你结束这一部分的学习的时候 你已经比50%的candidate知道的多了(因为很
+多人都不准备 或者不知道怎么准备system design) 恭喜:)
+
+== 进阶 ==
+这一部分的资料更加零散 每个看的可能不一样 但是你每多看一篇文章或者一个视频 
+你就比别人强一点
+这部分你会遇到很多新名词 我的建议是每当你遇到一个不懂的概念时 多google一下 
+看看这个概念或者技术是什么意思 优点和缺点各是什么 什么时候用 这些你都知道以
+后 你就可以把他运用到面试中 让面试官刮目相看了
+
+4. http://highscalability.com/blog/2009/8/6/an-unorthodox-approach-to-database-design-the-coming-of-the.html
+Database Sharding是一个很重要的概念 建议看一看
+
+5. http://highscalability.com/all-time-favorites/
+这个里面会讲到很多非常流行的网站架构是如何实现的 比如Twitter, Youtube, 
+Pinterest, Google等等 我的建议是看5-6个 然后你应该已经建立起了一些基本的意识
+还有知道了某些技术和产品的作用和mapping 比如说到cache你会想到memcached和
+Redis 说到load balancer你会想到 Amazon ELB, F5一类的
+
+6. http://www.infoq.com/
+5里面很多的文章都会有链接 其中有很多会指向这个网站 这里面有很多的tech talk 
+很不错 可以看看
+
+7. https://www.facebook.com/Engineering/notes
+Facebook非常好的技术日志 会讲很多facebook的feature怎么实现的 比如facebook 
+message:https://www.facebook.com/notes/facebook-engineering/the-underlying-
+technology-of-messages/454991608919 建议看看 尤其是准备面facebook的同学
+这有一个facebook talk讲storage的https://www.youtube.com/watch?v=5RfFhMwRAic
+
+8. 一些国内网站上的资料
+http://blog.csdn.net/sigh1988/article/details/9790337
+http://blog.csdn.net/v_july_v/article/details/6279498
+
+9. 最后一些概念很有用 都是我再看这些资料的时候发现的 如果你没有遇到或者查过 
+建议查查
+Distributed Hash Table
+Eventual Consistency vs Strong Consistency
+Read Heavy vs Write Heavy
+Consistent Hashing
+Sticky Sessions
+Structured Data(uses DynamoDB) vs Unstructured Data(uses S3)
+http://smartdatacollective.com/michelenemschoff/206391/quick-guide-structured-and-unstructured-data http://stackoverflow.com/questions/18678315/amazon-s3-or-dynamodb
+
+10 给有兴趣深入研究的人看的
+Mining Massive Datasets --讲很多big data和data mining的东西
+Big Data: Principles and best practices of scalable realtime data systems (http://www.amazon.com/gp/product/1617290343) --
+twitter的前员工讲述如何处理实时数据 目前市面上讲解big data最好的一本书
+
+10 凌乱的资料 随便看看吧
+http://highscalability.com/blog/2013/10/28/design-decisions-for
+== 小结＝＝
+看多了以后 你的最终目标应该是心里有了一个大框架 一个基本的distributed system
+是怎么搭起来的 然后心里有很多if condition 如果要是满足这个条件 我应该用什么
+技术 比如如果read heavy那么用cache会提升performance之类的 同时知道应该避免什
+么东西 比如避免single point of failure 再比如时间和空间的tradeoff在read 
+heavy的时候应该倾向于时间 Write heavy的时候倾向于空间等等
+
+你总结出来的和我总结出来的大框架和if conditions肯定不完全一样 但因为system 
+design本来就是一个open ended question 所以不用害怕 能够自圆其说 就不会有问题
+
+最后 本文纯属抛砖引玉 如果有大牛发现有错误或者有补充 欢迎留言 大家一起讨论
+
+== FAQ ==
+1. New Grad需要看System Design么?
+
+答案是it depends. 有的公司会考system design 有的公司只考到OO design 有的公司
+压根不考 当然 考到的公司对new grad的期望值会稍微低一点 但是 你有这么一个机会
+能让你gain leverage over other candidates why not? 为什么要让自己在面试前害怕
+面试官出system design的题目呢?
+
+System design 总结
+这里原帖地址: http://www.mitbbs.com/article_t/JobHunting/32492515.html
+以下为转载内容
+===========================我是分割线==================
+稍微总结一下
+
+1. 入门级的news feed
+http://www.quora.com/What-are-best-practices-for-building-somet
+http://www.infoq.com/presentations/Scale-at-Facebook
+http://www.infoq.com/presentations/Facebook-Software-Stack
+一般的followup question是估算需要多少server
+另外这个帖子有讨论
+http://www.mitbbs.ca/article_t/JobHunting/32463885.html
+这篇文章稍微提到要怎么approach这种题，可以稍微看看
+http://book.douban.com/reading/23757677/
+
+
+2. facebook chat,这个也算是挺常问的
+http://www.erlang-factory.com/upload/presentations/31/EugeneLet
+https://www.facebook.com/note.php?note_id=14218138919
+http://www.cnblogs.com/piaoger/archive/2012/08/19/2646530.html
+http://essay.utwente.nl/59204/1/scriptie_J_Schipers.pdf
+
+3. typeahead search/search suggestion，这个也常见
+https://www.facebook.com/video/video.php?v=432864835468
+问题在这个帖子里被讨论到，基本上每个问题，在视频里都有回答
+http://www.mitbbs.com/article_t/JobHunting/32438927.html
+
+
+4. Facebook Messaging System(有提到inbox search, which has been asked before）
+messaging system就是一个把所有chat/sms/email之类的都结合起来的一个系统
+http://www.infoq.com/presentations/HBase-at-Facebook
+http://sites.computer.org/debull/A12june/facebook.pdf
+http://www.slideshare.net/brizzzdotcom/facebook-messages-hbase/
+https://www.youtube.com/watch?v=UaGINWPK068
+
+
+5. 任给一个手机的位置信号(经纬度)，需要返回附近5mile 的POI
+这个这里有讨论，这题貌似nyc很爱考...
+http://www.mitbbs.ca/article0/JobHunting/32476139_0.html
+
+
+6. Implement second/minute/hour/day counters
+这题真不觉得是system design，但万一问道，还是要有准备，貌似在总部面试会被问
+道....
+这个帖子有讨论
+http://www.mitbbs.com/article_t/JobHunting/32458451.html
+
+
+7. facebook photo storage，这个不太会被问起，但是知道也不错
+https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Beaver.pdf
+https://www.facebook.com/note.php?note_id=76191543919
+
+
+8. facebook timeline,这个也不太是个考题，看看就行了
+https://www.facebook.com/note.php?note_id=10150468255628920
+http://highscalability.com/blog/2012/1/23/facebook-timeline-bro
+
+
+除了这些，准备一下这些题目
+implement memcache
+http://www.adayinthelifeof.nl/2011/02/06/memcache-internals/
+
+implement tinyurl（以及distribute across multiple servers)
+http://stackoverflow.com/questions/742013/how-to-code-a-url-sho
+
+determine trending topics(twitter)
+http://www.americanscientist.org/issues/pub/the-britney-spears-
+http://www.michael-noll.com/blog/2013/01/18/implementing-real-t
+
+copy one file to multiple servers
+http://vimeo.com/11280885
+
+稍微知道一下dynamo key value store，以及google的gfs和big table
+
+
+另外推荐一些网站
+http://highscalability.com/blog/category/facebook
+这个high scalability上有很多讲system design的东西，不光是facebook的，没空的
+话，就光看你要面试的那家就好了..
+facebook engineering blog
+http://www.quora.com/Facebook-Engineering/What-is-Facebooks-arc
+http://stackoverflow.com/questions/3533948/facebook-architectur
+
+其他家的
+http://www.quora.com/What-are-the-top-startup-engineering-blogs
+
+
+==================================================================
+在说说怎么准备这样的面试
+首先如果你连availability/scalability/consistency/partition之类的都不是太有概
+念的话，我建议先去wikipedia或者找一个某个大学讲这门课的网站稍微看一下，别一
+点都不知道
+这个链接也不错
+http://www.aosabook.org/en/distsys.html
+
+如果你这些基本的东西都还知道，那么我觉得你就和大部分毫无实际经验的人差不多一
+个水平...
+能做的就是一点一点去准备，如果你还有充足的时间的话，建议从你面试的那家公司的
+engineering blog看起，把人家用的technology stack/product都搞清楚，然后在把能
+找到的面试题都做一遍呗....我们做coding题说白了不也是题海战术...而且你如果坚
+持看下去，真的会看出心得，你会发现很多地方都有相同之处，看多了就也能照葫芦画
+瓢了...
+
+再有就是面试的时候应该怎么去approach这种题，我说说我的做法
+1. product spec/usage scenario 和面试者confirm这个东西到底是做什么的
+可以先列出来几个major functionality，然后有时间的话，再补充一些不重要的
+把你想的都写下来
+
+2. define some major components
+就是画几个圈圈框框的，每个发表一番您的高见....然后讲他们之间怎么interact
+
+以上是question specific的东西，
+这个讲完了，我们可以讲一些每道题都是用的，比如说
+怎么scale/怎么partition/怎么实现consistency，这些东西，可以套用到任何题上
+
+
+
+当然了，我们遇到的题和解题的方法可能都有些出入，不见得每道题有一个路数下来，
+最重要的是，讲题的时候要有条理，画图要清楚，保持和面试官的交流，随时问一下人
+家的意见。
+
+我能想到的就这么多，欢迎大家交流，希望大家都能找到理想的工作.
+
+十道海量数据处理面试题与十个方法大总结
+第一部分、十道海量数据处理面试题
+1、海量日志数据，提取出某日访问百度次数最多的那个IP。
+      首先是这一天，并且是访问百度的日志中的IP取出来，逐个写入到一个大文件中。注意到IP是32位的，最多有个2^32个IP。同样可以采用映射的方法，比如模1000，把整个大文件映射为1000个小文件，再找出每个小文中出现频率最大的IP（可以采用hash_map进行频率统计，然后再找出频率最大的几个）及相应的频率。然后再在这1000个最大的IP中，找出那个频率最大的IP，即为所求。
+或者如下阐述（雪域之鹰）：
+算法思想：分而治之+Hash
+1.IP地址最多有2^32=4G种取值情况，所以不能完全加载到内存中处理； 
+2.可以考虑采用“分而治之”的思想，按照IP地址的Hash(IP)%1024值，把海量IP日志分别存储到1024个小文件中。这样，每个小文件最多包含4MB个IP地址； 
+3.对于每一个小文件，可以构建一个IP为key，出现次数为value的Hash map，同时记录当前出现次数最多的那个IP地址；
+4.可以得到1024个小文件中的出现次数最多的IP，再依据常规的排序算法得到总体上出现次数最多的IP；
+
+2、搜索引擎会通过日志文件把用户每次检索使用的所有检索串都记录下来，每个查询串的长度为1-255字节。
+    假设目前有一千万个记录（这些查询串的重复度比较高，虽然总数是1千万，但如果除去重复后，不超过3百万个。一个查询串的重复度越高，说明查询它的用户越多，也就是越热门。），请你统计最热门的10个查询串，要求使用的内存不能超过1G。
+    典型的Top K算法，还是在这篇文章里头有所阐述，详情请参见：十一、从头到尾彻底解析Hash表算法。
+    
+    文中，给出的最终算法是：
+    第一步、先对这批海量数据预处理，在O（N）的时间内用Hash表完成统计（之前写成了排序，特此订正。July、2011.04.27）；
+    第二步、借助堆这个数据结构，找出Top K，时间复杂度为N‘logK。
+        即，借助堆结构，我们可以在log量级的时间内查找和调整/移动。因此，维护一个K(该题目中是10)大小的小根堆，然后遍历300万的Query，分别和根元素进行对比所以，我们最终的时间复杂度是：O（N） + N'*O（logK），（N为1000万，N’为300万）。ok，更多，详情，请参考原文。
+    或者：采用trie树，关键字域存该查询串出现的次数，没有出现为0。最后用10个元素的最小推来对出现频率进行排序。
+
+3、有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词。
+    方案：顺序读文件中，对于每个词x，取hash(x)%5000，然后按照该值存到5000个小文件（记为x0,x1,...x4999）中。这样每个文件大概是200k左右。
+    如果其中的有的文件超过了1M大小，还可以按照类似的方法继续往下分，直到分解得到的小文件的大小都不超过1M。
+    对每个小文件，统计每个文件中出现的词以及相应的频率（可以采用trie树/hash_map等），并取出出现频率最大的100个词（可以用含100个结点的最小堆），并把100个词及相应的频率存入文件，这样又得到了5000个文件。下一步就是把这5000个文件进行归并（类似与归并排序）的过程了。
+
+4、有10个文件，每个文件1G，每个文件的每一行存放的都是用户的query，每个文件的query都可能重复。要求你按照query的频度排序。
+    还是典型的TOP K算法，解决方案如下：
+    方案1：
+    顺序读取10个文件，按照hash(query)%10的结果将query写入到另外10个文件（记为）中。这样新生成的文件每个的大小大约也1G（假设hash函数是随机的）。
+    
+    找一台内存在2G左右的机器，依次对用hash_map(query, query_count)来统计每个query出现的次数。利用快速/堆/归并排序按照出现次数进行排序。将排序好的query和对应的query_cout输出到文件中。这样得到了10个排好序的文件（记为）。
+    对这10个文件进行归并排序（内排序与外排序相结合）。
+    方案2：
+     一般query的总量是有限的，只是重复的次数比较多而已，可能对于所有的query，一次性就可以加入到内存了。这样，我们就可以采用trie树/hash_map等直接来统计每个query出现的次数，然后按出现次数做快速/堆/归并排序就可以了。
+    方案3：
+    与方案1类似，但在做完hash，分成多个文件后，可以交给多个文件来处理，采用分布式的架构来处理（比如MapReduce），最后再进行合并。
+
+5、 给定a、b两个文件，各存放50亿个url，每个url各占64字节，内存限制是4G，让你找出a、b文件共同的url？
+    方案1：可以估计每个文件安的大小为5G×64=320G，远远大于内存限制的4G。所以不可能将其完全加载到内存中处理。考虑采取分而治之的方法。
+    遍历文件a，对每个url求取hash(url)%1000，然后根据所取得的值将url分别存储到1000个小文件（记为a0,a1,...,a999）中。这样每个小文件的大约为300M。
+    遍历文件b，采取和a相同的方式将url分别存储到1000小文件（记为b0,b1,...,b999）。这样处理后，所有可能相同的url都在对应的小文件（a0vsb0,a1vsb1,...,a999vsb999）中，不对应的小文件不可能有相同的url。然后我们只要求出1000对小文件中相同的url即可。
+    求每对小文件中相同的url时，可以把其中一个小文件的url存储到hash_set中。然后遍历另一个小文件的每个url，看其是否在刚才构建的hash_set中，如果是，那么就是共同的url，存到文件里面就可以了。
+    方案2：如果允许有一定的错误率，可以使用Bloom filter，4G内存大概可以表示340亿bit。将其中一个文件中的url使用Bloom filter映射为这340亿bit，然后挨个读取另外一个文件的url，检查是否与Bloom filter，如果是，那么该url应该是共同的url（注意会有一定的错误率）。
+    Bloom filter日后会在本BLOG内详细阐述。
+
+6、在2.5亿个整数中找出不重复的整数，注，内存不足以容纳这2.5亿个整数。
+    方案1：采用2-Bitmap（每个数分配2bit，00表示不存在，01表示出现一次，10表示多次，11无意义）进行，共需内存2^32 * 2 bit=1 GB内存，还可以接受。然后扫描这2.5亿个整数，查看Bitmap中相对应位，如果是00变01，01变10，10保持不变。所描完事后，查看bitmap，把对应位是01的整数输出即可。
+    方案2：也可采用与第1题类似的方法，进行划分小文件的方法。然后在小文件中找出不重复的整数，并排序。然后再进行归并，注意去除重复的元素。
+
+7、腾讯面试题：给40亿个不重复的unsigned int的整数，没排过序的，然后再给一个数，如何快速判断这个数是否在那40亿个数当中？
+    与上第6题类似，我的第一反应时快速排序+二分查找。以下是其它更好的方法：
+    方案1：oo，申请512M的内存，一个bit位代表一个unsigned int值。读入40亿个数，设置相应的bit位，读入要查询的数，查看相应bit位是否为1，为1表示存在，为0表示不存在。
+    dizengrong：
+    方案2：这个问题在《编程珠玑》里有很好的描述，大家可以参考下面的思路，探讨一下：
+又因为2^32为40亿多，所以给定一个数可能在，也可能不在其中；
+这里我们把40亿个数中的每一个用32位的二进制来表示
+假设这40亿个数开始放在一个文件中。
+    然后将这40亿个数分成两类:
+      1.最高位为0
+      2.最高位为1
+    并将这两类分别写入到两个文件中，其中一个文件中数的个数<=20亿，而另一个>=20亿（这相当于折半了）；
+与要查找的数的最高位比较并接着进入相应的文件再查找
+    再然后把这个文件为又分成两类:
+      1.次最高位为0
+      2.次最高位为1
+    并将这两类分别写入到两个文件中，其中一个文件中数的个数<=10亿，而另一个>=10亿（这相当于折半了）；
+    与要查找的数的次最高位比较并接着进入相应的文件再查找。
+    .......
+    以此类推，就可以找到了,而且时间复杂度为O(logn)，方案2完。
+   附：这里，再简单介绍下，位图方法：
+    使用位图法判断整形数组是否存在重复 
+    判断集合中存在重复是常见编程任务之一，当集合中数据量比较大时我们通常希望少进行几次扫描，这时双重循环法就不可取了。
+    位图法比较适合于这种情况，它的做法是按照集合中最大元素max创建一个长度为max+1的新数组，然后再次扫描原数组，遇到几就给新数组的第几位置上1，如遇到5就给新数组的第六个元素置1，这样下次再遇到5想置位时发现新数组的第六个元素已经是1了，这说明这次的数据肯定和以前的数据存在着重复。这种给新数组初始化时置零其后置一的做法类似于位图的处理方法故称位图法。它的运算次数最坏的情况为2N。如果已知数组的最大值即能事先给新数组定长的话效率还能提高一倍。
+    欢迎，有更好的思路，或方法，共同交流。
+
+8、怎么在海量数据中找出重复次数最多的一个？
+   
+    方案1：先做hash，然后求模映射为小文件，求出每个小文件中重复次数最多的一个，并记录重复次数。然后找出上一步求出的数据中重复次数最多的一个就是所求（具体参考前面的题）。
+
+9、上千万或上亿数据（有重复），统计其中出现次数最多的钱N个数据。
+    方案1：上千万或上亿的数据，现在的机器的内存应该能存下。所以考虑采用hash_map/搜索二叉树/红黑树等来进行统计次数。然后就是取出前N个出现次数最多的数据了，可以用第2题提到的堆机制完成。
+
+10、一个文本文件，大约有一万行，每行一个词，要求统计出其中最频繁出现的前10个词，请给出思想，给出时间复杂度分析。
+    方案1：这题是考虑时间效率。用trie树统计每个词出现的次数，时间复杂度是O(n*le)（le表示单词的平准长度）。然后是找出出现最频繁的前10个词，可以用堆来实现，前面的题中已经讲到了，时间复杂度是O(n*lg10)。所以总的时间复杂度，是O(n*le)与O(n*lg10)中较大的哪一个。
+
+附、100w个数中找出最大的100个数。
+    方案1：在前面的题中，我们已经提到了，用一个含100个元素的最小堆完成。复杂度为O(100w*lg100)。
+    方案2：采用快速排序的思想，每次分割之后只考虑比轴大的一部分，知道比轴大的一部分在比100多的时候，采用传统排序算法排序，取前100个。复杂度为O(100w*100)。
+    方案3：采用局部淘汰法。选取前100个元素，并排序，记为序列L。然后一次扫描剩余的元素x，与排好序的100个元素中最小的元素比，如果比这个最小的要大，那么把这个最小的元素删除，并把x利用插入排序的思想，插入到序列L中。依次循环，知道扫描了所有的元素。复杂度为O(100w*100)。
+致谢：http://www.cnblogs.com/youwang/。
+ 
+第二部分、十个海量数据处理方法大总结
+    ok，看了上面这么多的面试题，是否有点头晕。是的，需要一个总结。接下来，本文将简单总结下一些处理海量数据问题的常见方法，而日后，本BLOG内会具体阐述这些方法。
+    下面的方法全部来自http://hi.baidu.com/yanxionglu/blog/博客，对海量数据的处理方法进行了一个一般性的总结，当然这些方法可能并不能完全覆盖所有的问题，但是这样的一些方法也基本可以处理绝大多数遇到的问题。下面的一些问题基本直接来源于公司的面试笔试题目，方法不一定最优，如果你有更好的处理方法，欢迎讨论。
+一、Bloom filter
+　　适用范围：可以用来实现数据字典，进行数据的判重，或者集合求交集
+　　基本原理及要点：
+　　对于原理来说很简单，位数组+k个独立hash函数。将hash函数对应的值的位数组置1，查找时如果发现所有hash函数对应位都是1说明存在，很明显这个过程并不保证查找的结果是100%正确的。同时也不支持删除一个已经插入的关键字，因为该关键字对应的位会牵动到其他的关键字。所以一个简单的改进就是 counting Bloom filter，用一个counter数组代替位数组，就可以支持删除了。
+　　还有一个比较重要的问题，如何根据输入元素个数n，确定位数组m的大小及hash函数个数。当hash函数个数k=(ln2)*(m/n)时错误率最小。在错误率不大于E的情况下，m至少要等于n*lg(1/E)才能表示任意n个元素的集合。但m还应该更大些，因为还要保证bit数组里至少一半为0，则m应该>=nlg(1/E)*lge 大概就是nlg(1/E)1.44倍(lg表示以2为底的对数)。
+　　举个例子我们假设错误率为0.01，则此时m应大概是n的13倍。这样k大概是8个。
+　　注意这里m与n的单位不同，m是bit为单位，而n则是以元素个数为单位(准确的说是不同元素的个数)。通常单个元素的长度都是有很多bit的。所以使用bloom filter内存上通常都是节省的。
+　　扩展：
+　　Bloom filter将集合中的元素映射到位数组中，用k（k为哈希函数个数）个映射位是否全1表示元素在不在这个集合中。Counting bloom filter（CBF）将位数组中的每一位扩展为一个counter，从而支持了元素的删除操作。Spectral Bloom Filter（SBF）将其与集合元素的出现次数关联。SBF采用counter中的最小值来近似表示元素的出现频率。
+　　问题实例：给你A,B两个文件，各存放50亿条URL，每条URL占用64字节，内存限制是4G，让你找出A,B文件共同的URL。如果是三个乃至n个文件呢？
+　　根据这个问题我们来计算下内存的占用，4G=2^32大概是40亿*8大概是340亿，n=50亿，如果按出错率0.01算需要的大概是650亿个bit。现在可用的是340亿，相差并不多，这样可能会使出错率上升些。另外如果这些urlip是一一对应的，就可以转换成ip，则大大简单了。
+
+二、Hashing
+　　适用范围：快速查找，删除的基本数据结构，通常需要总数据量可以放入内存
+　　基本原理及要点：
+　　hash函数选择，针对字符串，整数，排列，具体相应的hash方法。
+　　碰撞处理，一种是open hashing，也称为拉链法；另一种就是closed hashing，也称开地址法，opened addressing。
+      扩展：
+　　d-left hashing中的d是多个的意思，我们先简化这个问题，看一看2-left hashing。2-left hashing指的是将一个哈希表分成长度相等的两半，分别叫做T1和T2，给T1和T2分别配备一个哈希函数，h1和h2。在存储一个新的key时，同时用两个哈希函数进行计算，得出两个地址h1[key]和h2[key]。这时需要检查T1中的h1[key]位置和T2中的h2[key]位置，哪一个位置已经存储的（有碰撞的）key比较多，然后将新key存储在负载少的位置。如果两边一样多，比如两个位置都为空或者都存储了一个key，就把新key存储在左边的T1子表中，2-left也由此而来。在查找一个key时，必须进行两次hash，同时查找两个位置。
+　　问题实例：
+　　1).海量日志数据，提取出某日访问百度次数最多的那个IP。
+　　IP的数目还是有限的，最多2^32个，所以可以考虑使用hash将ip直接存入内存，然后进行统计。
+
+三、bit-map
+　　适用范围：可进行数据的快速查找，判重，删除，一般来说数据范围是int的10倍以下
+　　基本原理及要点：使用bit数组来表示某些元素是否存在，比如8位电话号码
+　　扩展：bloom filter可以看做是对bit-map的扩展
+　　问题实例：
+　　1)已知某个文件内包含一些电话号码，每个号码为8位数字，统计不同号码的个数。
+　　8位最多99 999 999，大概需要99m个bit，大概10几m字节的内存即可。
+　　2)2.5亿个整数中找出不重复的整数的个数，内存空间不足以容纳这2.5亿个整数。
+　　将bit-map扩展一下，用2bit表示一个数即可，0表示未出现，1表示出现一次，2表示出现2次及以上。或者我们不用2bit来进行表示，我们用两个bit-map即可模拟实现这个2bit-map。
+
+四、堆
+　　适用范围：海量数据前n大，并且n比较小，堆可以放入内存
+　　基本原理及要点：最大堆求前n小，最小堆求前n大。方法，比如求前n小，我们比较当前元素与最大堆里的最大元素，如果它小于最大元素，则应该替换那个最大元素。这样最后得到的n个元素就是最小的n个。适合大数据量，求前n小，n的大小比较小的情况，这样可以扫描一遍即可得到所有的前n元素，效率很高。
+　　扩展：双堆，一个最大堆与一个最小堆结合，可以用来维护中位数。
+　　问题实例：
+　　1)100w个数中找最大的前100个数。
+　　用一个100个元素大小的最小堆即可。
+ 
+五、双层桶划分----其实本质上就是【分而治之】的思想，重在“分”的技巧上！
+　　适用范围：第k大，中位数，不重复或重复的数字
+　　基本原理及要点：因为元素范围很大，不能利用直接寻址表，所以通过多次划分，逐步确定范围，然后最后在一个可以接受的范围内进行。可以通过多次缩小，双层只是一个例子。
+　　扩展：
+　　问题实例：
+　　1).2.5亿个整数中找出不重复的整数的个数，内存空间不足以容纳这2.5亿个整数。
+　　有点像鸽巢原理，整数个数为2^32,也就是，我们可以将这2^32个数，划分为2^8个区域(比如用单个文件代表一个区域)，然后将数据分离到不同的区域，然后不同的区域在利用bitmap就可以直接解决了。也就是说只要有足够的磁盘空间，就可以很方便的解决。
+　　2).5亿个int找它们的中位数。
+　　这个例子比上面那个更明显。首先我们将int划分为2^16个区域，然后读取数据统计落到各个区域里的数的个数，之后我们根据统计结果就可以判断中位数落到那个区域，同时知道这个区域中的第几大数刚好是中位数。然后第二次扫描我们只统计落在这个区域中的那些数就可以了。
+　　实际上，如果不是int是int64，我们可以经过3次这样的划分即可降低到可以接受的程度。即可以先将int64分成2^24个区域，然后确定区域的第几大数，在将该区域分成2^20个子区域，然后确定是子区域的第几大数，然后子区域里的数的个数只有2^20，就可以直接利用direct addr table进行统计了。
+
+六、数据库索引
+　　适用范围：大数据量的增删改查
+　　基本原理及要点：利用数据的设计实现方法，对海量数据的增删改查进行处理。
+
+七、倒排索引(Inverted index)
+　　适用范围：搜索引擎，关键字查询
+　　基本原理及要点：为何叫倒排索引？一种索引方法，被用来存储在全文搜索下某个单词在一个文档或者一组文档中的存储位置的映射。
+　以英文为例，下面是要被索引的文本：
+    T0 = "it is what it is"
+    T1 = "what is it"
+    T2 = "it is a banana"
+我们就能得到下面的反向文件索引：
+    "a":      {2}
+    "banana": {2}
+    "is":     {0, 1, 2}
+    "it":     {0, 1, 2}
+    "what":   {0, 1}
+　检索的条件"what","is"和"it"将对应集合的交集。
+　　正向索引开发出来用来存储每个文档的单词的列表。正向索引的查询往往满足每个文档有序频繁的全文查询和每个单词在校验文档中的验证这样的查询。在正向索引中，文档占据了中心的位置，每个文档指向了一个它所包含的索引项的序列。也就是说文档指向了它包含的那些单词，而反向索引则是单词指向了包含它的文档，很容易看到这个反向的关系。
+　　扩展：
+　　问题实例：文档检索系统，查询那些文件包含了某单词，比如常见的学术论文的关键字搜索。
+
+八、外排序
+　　适用范围：大数据的排序，去重
+　　基本原理及要点：外排序的归并方法，置换选择败者树原理，最优归并树
+　　扩展：
+　　问题实例：
+　　1).有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16个字节，内存限制大小是1M。返回频数最高的100个词。
+　　这个数据具有很明显的特点，词的大小为16个字节，但是内存只有1m做hash有些不够，所以可以用来排序。内存可以当输入缓冲区使用。
+
+九、trie树
+　　适用范围：数据量大，重复多，但是数据种类小可以放入内存
+　　基本原理及要点：实现方式，节点孩子的表示方式
+　　扩展：压缩实现。
+　　问题实例：
+　　1).有10个文件，每个文件1G，每个文件的每一行都存放的是用户的query，每个文件的query都可能重复。要你按照query的频度排序。
+　　2).1000万字符串，其中有些是相同的(重复),需要把重复的全部去掉，保留没有重复的字符串。请问怎么设计和实现？
+　　3).寻找热门查询：查询串的重复度比较高，虽然总数是1千万，但如果除去重复后，不超过3百万个，每个不超过255字节。
+
+十、分布式处理 mapreduce
+　　适用范围：数据量大，但是数据种类小可以放入内存
+　　基本原理及要点：将数据交给不同的机器去处理，数据划分，结果归约。
+　　扩展：
+　　问题实例：
+　　1).The canonical example application of MapReduce is a process to count the appearances of
+each different word in a set of documents:
+　　2).海量数据分布在100台电脑中，想个办法高效统计出这批数据的TOP10。
+　　3).一共有N个机器，每个机器上有N个数。每个机器最多存O(N)个数并对它们操作。如何找到N^2个数的中数(median)？
+
+经典问题分析
+　　上千万or亿数据（有重复），统计其中出现次数最多的前N个数据,分两种情况：可一次读入内存，不可一次读入。
+　　可用思路：trie树+堆，数据库索引，划分子集分别统计，hash，分布式计算，近似统计，外排序
+　　所谓的是否能一次读入内存，实际上应该指去除重复后的数据量。如果去重后数据可以放入内存，我们可以为数据建立字典，比如通过 map，hashmap，trie，然后直接进行统计即可。当然在更新每条数据的出现次数的时候，我们可以利用一个堆来维护出现次数最多的前N个数据，当然这样导致维护次数增加，不如完全统计后在求前N大效率高。
+　　如果数据无法放入内存。一方面我们可以考虑上面的字典方法能否被改进以适应这种情形，可以做的改变就是将字典存放到硬盘上，而不是内存，这可以参考数据库的存储方法。
+　　当然还有更好的方法，就是可以采用分布式计算，基本上就是map-reduce过程，首先可以根据数据值或者把数据hash(md5)后的值，将数据按照范围划分到不同的机子，最好可以让数据划分后可以一次读入内存，这样不同的机子负责处理各种的数值范围，实际上就是map。得到结果后，各个机子只需拿出各自的出现次数最多的前N个数据，然后汇总，选出所有的数据中出现次数最多的前N个数据，这实际上就是reduce过程。
+　　实际上可能想直接将数据均分到不同的机子上进行处理，这样是无法得到正确的解的。因为一个数据可能被均分到不同的机子上，而另一个则可能完全聚集到一个机子上，同时还可能存在具有相同数目的数据。比如我们要找出现次数最多的前100个，我们将1000万的数据分布到10台机器上，找到每台出现次数最多的前 100个，归并之后这样不能保证找到真正的第100个，因为比如出现次数最多的第100个可能有1万个，但是它被分到了10台机子，这样在每台上只有1千个，假设这些机子排名在1000个之前的那些都是单独分布在一台机子上的，比如有1001个，这样本来具有1万个的这个就会被淘汰，即使我们让每台机子选出出现次数最多的1000个再归并，仍然会出错，因为可能存在大量个数为1001个的发生聚集。因此不能将数据随便均分到不同机子上，而是要根据hash 后的值将它们映射到不同的机子上处理，让不同的机器处理一个数值范围。
+　 而外排序的方法会消耗大量的IO，效率不会很高。而上面的分布式方法，也可以用于单机版本，也就是将总的数据根据值的范围，划分成多个不同的子文件，然后逐个处理。处理完毕之后再对这些单词的及其出现频率进行一个归并。实际上就可以利用一个外排序的归并过程。
+　 另外还可以考虑近似计算，也就是我们可以通过结合自然语言属性，只将那些真正实际中出现最多的那些词作为一个字典，使得这个规模可以放入内存。 
+ok，更多请参见本文总结：教你如何迅速秒杀掉：99%的海量数据处理面试题。以上有任何问题，欢迎指正。谢谢大家。
+
+Sacalability for dummies
+Just recently I was asked what it would take to make a web service massively scalable. My answer was lengthy and maybe it is also for other people interesting. So I share it with you here in my blog and split it into parts to make it easier to read. New parts are released on a regular basis. Have fun and your comments are always welcomed!
+The other parts of the series “Scalability for Dummies” you can (soon) find here.
+Part 1 - Clones
+Public servers of a scalable web service are hidden behind a load balancer.  This load balancer evenly distributes load (requests from your users) onto your group/cluster of  application servers. That means that if, for example, user Steve interacts with your service, he may be served at his first request by server 2, then with his second request by server 9 and then maybe again by server 2 on his third request. 
+Steve should always get the same results of his request back, independent what server he  “landed on”. That leads to the first golden rule for scalability: every server contains exactly the same codebase and does not store any user-related data, like sessions or profile pictures, on local disc or memory. 
+
+Sessions need to be stored in a centralized data store which is accessible to all your application servers. It can be an external database or an external persistent cache, like Redis. An external persistent cache will have better performance than an external database. By external I mean that the data store does not reside on the application servers. Instead, it is somewhere in or near the data center of your application servers. 
+
+But what about deployment? How can you make sure that a code change is sent to all your servers without one server still serving old code? This tricky problem is fortunately already solved by the great tool Capistrano. It requires some learning, especially if you are not into Ruby on Rails, but it is definitely both the effort.
+After “outsourcing” your sessions and serving the same codebase from all your servers, you can now create an image file from one of these servers (AWS calls this AMI - Amazon Machine Image.) Use this AMI as a “super-clone” that all your new instances are based upon. Whenever you start a new instance/clone, just do an initial deployment of your latest code and you are ready!
+
+After following Part 1 of this series, your servers can now horizontally scale and you can already serve thousands of concurrent requests. But somewhere down the road your application gets slower and slower and finally breaks down. The reason: your database. It’s MySQL, isn’t it?
+Now the required changes are more radical than just adding more cloned servers and may even require some boldness. In the end, you can choose from 2 paths:
+Path #1 is to stick with MySQL and keep the “beast” running. Hire a database administrator (DBA,) tell him to do master-slave replication (read from slaves, write to master) and upgrade your master server by adding RAM, RAM and more RAM. In some months, your DBA will come up with words like “sharding”, “denormalization” and “SQL tuning” and will look worried about the necessary overtime during the next weeks. At that point every new action to keep your database running will be more expensive and time consuming than the previous one. You might have been better off if you had chosen Path #2 while your dataset was still small and easy to migrate.
+Path #2 means to denormalize right from the beginning and include no more Joins in any database query. You can stay with MySQL, and use it like a NoSQL database, or you can switch to a better and easier to scale NoSQL database like MongoDB or CouchDB. Joins will now need to be done in your application code. The sooner you do this step the less code you will have to change in the future. But even if you successfully switch to the latest and greatest NoSQL database and let your app do the dataset-joins, soon your database requests will again be slower and slower. You will need to introduce a cache.
+
+After following Part 2 of this series, you now have a scalable database solution. You have no fear of storing terabytes anymore and the world is looking fine. But just for you. Your users still have to suffer slow page requests when a lot of data is fetched from the database. The solution is the implementation of a cache.
+With “cache” I always mean in-memory caches like Memcached or Redis. Please never do file-based caching, it makes cloning and auto-scaling of your servers just a pain. 
+
+But back to in-memory caches. A cache is a simple key-value store and it should reside as a buffering layer between your application and your data storage. Whenever your application has to read data it should at first try to retrieve the data from your cache. Only if it’s not in the cache should it then try to get the data from the main data source. Why should you do that? Because a cache is lightning-fast. It holds every dataset in RAM and requests are handled as fast as technically possible. For example, Redis can do several hundreds of thousands of read operations per second when being hosted on a standard server. Also writes, especially increments, are very, very fast. Try that with a database!
+
+
+There are 2 patterns of caching your data. An old one and a new one:
+
+#1 - Cached Database Queries
+That’s still the most commonly used caching pattern. Whenever you do a query to your database, you store the result dataset in cache. A hashed version of your query is the cache key. The next time you run the query, you first check if it is already in the cache. The next time you run the query, you check at first the cache if there is already a result. This pattern has several issues. The main issue is the expiration. It is hard to delete a cached result when you cache a complex query (who has not?). When one piece of data changes (for example a table cell) you need to delete all cached queries who may include that table cell. You get the point?
+#2 - Cached Objects
+That’s my strong recommendation and I always prefer this pattern. In general, see your data as an object like you already do in your code (classes, instances, etc.). Let your class assemble a dataset from your database and then store the complete instance of the class or the assembed dataset in the cache. Sounds theoretical, I know, but just look how you normally code. You have, for example, a class called “Product” which has a property called “data”. It is an array containing prices, texts, pictures, and customer reviews of your product. The property “data” is filled by several methods in the class doing several database requests which are hard to cache, since many things relate to each other. Now, do the following: when your class has finished the “assembling” of the data array, directly store the data array, or better yet the complete instance of the class, in the cache! This allows you to easily get rid of the object whenever something did change and makes the overall operation of your code faster and more logical.
+
+And the best part: it makes asynchronous processing possible! Just imagine an army of worker servers who assemble your objects for you! The application just consumes the latest cached object and nearly never touches the databases anymore!
+
+Some ideas of objects to cache:
+user sessions (never use the database!)
+fully rendered blog articles
+activity streams
+user<->friend relationships 
+As you maybe already realized, I am a huge fan of caching. It is easy to understand, very simple to implement and the result is always breathtaking. In general, I am more a friend of Redis than Memcached, because I love the extra database-features of Redis like persistence and the built-in data structures like lists and sets. With Redis and a clever key’ing there may be a chance that you even can get completly rid of a database. But if you just need to cache, take Memcached, because it scales like a charm.
+
+Happy caching! 
+
+
+This 4th part of the series starts with a picture: please imagine that you want to buy bread at your favorite bakery.  So you go into the bakery, ask for a loaf of bread, but there is no bread there! Instead, you are asked to come back in 2 hours when your ordered bread is ready. That’s annoying, isn’t it?
+
+To avoid such a “please wait a while” - situation, asynchronism needs to be done.  And what’s good for a bakery, is maybe also good for your web service or web app.
+In general, there are two ways / paradigms asynchronism can be done. 
+
+Async #1
+Let’s stay in the former bakery picture. The first way of async processing is the “bake the breads at night and sell them in the morning” way. No waiting time at the cash register and a happy customer.  Referring to a web app this means doing the time-consuming work in advance and serving the finished work with a low request time.
+
+Very often this paradigm is used to turn dynamic content into static content.  Pages of a website, maybe built with a massive framework or CMS, are pre-rendered and locally stored as static HTML files on every change. Often these computing tasks are done on a regular basis, maybe by a script which is called every hour by a cronjob. This pre-computing of overall general data can extremely improve websites and web apps and makes them very scalable and performant. Just imagine the scalability of your website if the script would upload these pre-rendered HTML pages to AWS S3 or Cloudfront or another Content Delivery Network! Your website would be super responsive and could handle millions of visitors per hour!
+
+Async #2
+Back to the bakery. Unfortunately, sometimes customers has special requests like a birthday cake with “Happy Birthday, Steve!” on it. The bakery can not foresee these kind of customer wishes, so it must start the task when the customer is in the bakery and tell him to come back at the next day. Refering to a web service that means to handle tasks asynchronously.
+
+Here is a typical workflow:
+
+A user comes to your website and starts a very computing intensive task which would take several minutes to finish. So the frontend of your website sends a job onto a job queue and immediately signals back to the user: your job is in work, please continue to the browse the page. The job queue is constantly checked by a bunch of workers for new jobs. If there is a new job then the worker does the job and after some minutes sends a signal that the job was done. The frontend, which constantly checks for new “job is done” - signals, sees that the job was done and informs the user about it. I know, that was a very simplified example. 
+
+If you now want to dive more into the details and actual technical design, I recommend you take a look at the first 3 tutorials on the RabbitMQ website. RabbitMQ is one of many systems which help to implement async processing. You could also use ActiveMQ or a simple Redis list. The basic idea is to have a queue of tasks or jobs that a worker can process. Asynchronism seems complicated, but it is definitely worth your time to learn about it and implement it yourself. Backends become nearly infinitely scalable and frontends become snappy which is good for the overall user experience. 
+
+If you do something time-consuming, try to do it always asynchronously. 
+
+
+An Unorthodox Approach To Database Design : The Coming Of The Shard
+THURSDAY, AUGUST 6, 2009 AT 3:24PM
+Update 4: Why you don’t want to shard. by Morgon on the MySQL Performance Blog. Optimize everything else first, and then if performance still isn’t good enough, it’s time to take a very bitter medicine. 
+Update 3: Building Scalable Databases: Pros and Cons of Various Database Sharding Schemes by Dare Obasanjo. Excellent discussion of why and when you would choose a sharding architecture, how to shard, and problems with sharding.
+Update 2: Mr. Moore gets to punt on sharding by Alan Rimm-Kaufman of 37signals. Insightful article on design tradeoffs and the evils of premature optimization. With more memory, more CPU, and new tech like SSD, problems can be avoided before more exotic architectures like sharding are needed. Add features not infrastructure. Jeremy Zawodnysays he's wrong wrong wrong. we're running multi-core CPUs at slower clock speeds. Moore won't save you.
+Update: Dan Pritchett shares some excellent Sharding Lessons: Size Your Shards, Use Math on Shard Counts, Carefully Consider the Spread, Plan for Exceeding Your Shards
+
+Once upon a time we scaled databases by buying ever bigger, faster, and more expensive machines. While this arrangement is great for big iron profit margins, it doesn't work so well for the bank accounts of our heroic system builders who need to scale well past what they can afford to spend on giant database servers. In a extraordinary two article series, Dathan Pattishall, explains his motivation for a revolutionary new database architecture--sharding--that he began thinking about even before he worked at Friendster, and fully implemented at Flickr. Flickr now handles more than 1 billion transactions per day, responding in less then a few seconds and can scale linearly at a low cost.
+What is sharding and how has it come to be the answer to large website scaling problems?
+Information Sources
+	Unorthodox approach to database design Part1:History
+	Unorthodox approach to database design Part 2:Friendster
+What Is Sharding?
+While working at Auction Watch, Dathan got the idea to solve their scaling problems by creating a database server for a group of users and running those servers on cheap Linux boxes. In this scheme the data for User A is stored on one server and the data for User B is stored on another server. It's a federated model. Groups of 500K users are stored together in what are called shards.
+
+The advantages are:
+•  High availability. If one box goes down the others still operate.
+•  Faster queries. Smaller amounts of data in each user group mean faster querying.
+•  More write bandwidth. With no master database serializing writes you can write in parallel which increases your write throughput. Writing is major bottleneck for many websites.
+•  You can do more work. A parallel backend means you can do more work simultaneously. You can handle higher user loads, especially when writing data, because there are parallel paths through your system. You can load balance web servers, which access shards over different network paths, which are processed by separate CPUs, which use separate caches of RAM and separate disk IO paths to process work. Very few bottlenecks limit your work.
+
+How Is Sharding Different Than Traditional Architectures?
+Sharding is different than traditional database architecture in several important ways:
+•  Data are denormalized. Traditionally we normalize data. Data are splayed out into anomaly-less tables and then joined back together again when they need to be used. In sharding the data are denormalized. You store together data that are used together. 
+
+This doesn't mean you don't also segregate data by type. You can keep a user's profile data separate from their comments, blogs, email, media, etc, but the user profile data would be stored and retrieved as a whole. This is a very fast approach. You just get a blob and store a blob. No joins are needed and it can be written with one disk write.
+•  Data are parallelized across many physical instances. Historically database servers are scaled up. You buy bigger machines to get more power. With sharding the data are parallelized and you scale by scaling out. Using this approach you can get massively more work done because it can be done in parallel.
+•  Data are kept small. The larger a set of data a server handles the harder it is to cash intelligently because you have such a wide diversity of data being accessed. You need huge gobs of RAM that may not even be enough to cache the data when you need it. By isolating data into smaller shards the data you are accessing is more likely to stay in cache. 
+
+Smaller sets of data are also easier to backup, restore, and manage.
+•  Data are more highly available. Since the shards are independent a failure in one doesn't cause a failure in another. And if you make each shard operate at 50% capacity it's much easier to upgrade a shard in place. Keeping multiple data copies within a shard also helps with redundancy and making the data more parallelized so more work can be done on the data. You can also setup a shard to have a master-slave or dual master relationship within the shard to avoid a single point of failure within the shard. If one server goes down the other can take over.
+•  It doesn't use replication. Replicating data from a master server to slave servers is a traditional approach to scaling. Data is written to a master server and then replicated to one or more slave servers. At that point read operations can be handled by the slaves, but all writes happen on the master. 
+
+Obviously the master becomes the write bottleneck and a single point of failure. And as load increases the cost of replication increases. Replication costs in CPU, network bandwidth, and disk IO. The slaves fall behind and have stale data. The folks at YouTube had a big problem with replication overhead as they scaled.
+
+Sharding cleanly and elegantly solves the problems with replication.
+
+Some Problems With Sharding
+Sharding isn't perfect. It does have a few problems.
+•  Rebalancing data. What happens when a shard outgrows your storage and needs to be split? Let's say some user has a particularly large friends list that blows your storage capacity for the shard. You need to move the user to a different shard.
+
+On some platforms I've worked on this is a killer problem. You had to build out the data center correctly from the start because moving data from shard to shard required a lot of downtime.
+
+Rebalancing has to be built in from the start. Google's shards automatically rebalance. For this to work data references must go through some sort of naming service so they can be relocated. This is what Flickr does. And your references must be invalidateable so the underlying data can be moved while you are using it.
+•  Joining data from multiple shards. To create a complex friends page, or a user profile page, or a thread discussion page, you usually must pull together lots of different data from many different sources. With sharding you can't just issue a query and get back all the data. You have to make individual requests to your data sources, get all the responses, and the build the page. Thankfully, because of caching and fast networks this process is usually fast enough that your page load times can be excellent.
+•  How do you partition your data in shards? What data do you put in which shard? Where do comments go? Should all user data really go together, or just their profile data? Should a user's media, IMs, friends lists, etc go somewhere else? Unfortunately there are no easy answer to these questions.
+•  Less leverage. People have experience with traditional RDBMS tools so there is a lot of help out there. You have books, experts, tool chains, and discussion forums when something goes wrong or you are wondering how to implement a new feature. Eclipse won't have a shard view and you won't find any automated backup and restore programs for your shard. With sharding you are on your own. 
+•  Implementing shards is not well supported. Sharding is currently mostly a roll your own approach. LiveJournal makes their tool chain available. Hibernate has a library under development. MySQL has added support for partioning. But in general it's still something you must implement yourself.
+
+See Also
+•  The Flickr Architecture for more interesting ideas on how to implement sharding.
+•  The Google Arhitecture.
+•  The LiveJournal Architecture. They talk quite a bit about their sharding approach and give a lot of helpful details.
+•  The Shard category.
+
+
+Guide to the Most Important JVM Parameters
+
+
+1. Overview
+In this quick tutorial, we’ll explore the most well-known options which can be used to configure the Java Virtual Machine.
+2. Explicit Heap Memory
+One of the most common performance-related practices is to initialize the heap memory as per the application requirements.
+That’s why we should specify minimal and maximal heap size. Below parameters can be used for achieving it:
+1
+2	-Xms<heap size>[unit] 
+-Xmx<heap size>[unit]
+Here, unit denotes the unit in which the memory (indicated by heap size) is to be initialized. Units can be marked as ‘g’ for GB, ‘m’ for MB and ‘k’ for KB.
+For example, if we want to assign minimum 2 GB and maximum 5 GB to JVM, we need to write:
+1	-Xms2G -Xmx5G
+Starting with Java 8, the size of Metaspace is not defined. Once it reaches the global limit, JVM automatically increases it, However, to overcome any unnecessary instability, we can set Metaspace size with:
+1	-XX:MaxMetaspaceSize=<metaspace size>[unit]
+Here, metaspace size denotes the amount of memory we want to assign to Metaspace.
+As per Oracle guidelines, after total available memory, the second most influential factor is the proportion of the heap reserved for the Young Generation. By default, the minimum size of the YG is 1310 MB, and maximum size is unlimited.
+We can assign them explicitly:
+1
+2	-XX:NewSize=<young size>[unit] 
+-XX:MaxNewSize=<young size>[unit]
+3. Garbage Collection
+For better stability of the application, choosing of right Garbage Collection algorithm is critical.
+JVM has four types of GC implementations:
+•	Serial Garbage Collector
+•	Parallel Garbage Collector
+•	CMS Garbage Collector
+•	G1 Garbage Collector
+These implementations can be declared with the below parameters:
+1
+2
+3
+4	-XX:+UseSerialGC
+-XX:+UseParallelGC
+-XX:+USeParNewGC
+-XX:+UseG1GC
+More details on Garbage Collection implementations can be found here.
+4. GC Logging
+To strictly monitor the application health, we should always check the JVM’s Garbage Collection performance. The easiest way to do this is to log the GC activity in human readable format.
+Using the following parameters, we can log the GC activity:
+1
+2
+3
+4	-XX:+UseGCLogFileRotation 
+-XX:NumberOfGCLogFiles=< number of log files > 
+-XX:GCLogFileSize=< file size >[ unit ]
+-Xloggc:/path/to/gc.log
+UseGCLogFileRotation specifies the log file rolling policy, much like log4j, s4lj, etc. NumberOfGCLogFiles denotes the max number of log files that can be written for a single application life cycle. GCLogFileSize specifies the max size of the file. Finally, loggc denotes its location.
+Point to note here is that, there are two more JVM parameters available (-XX:+PrintGCTimeStamps and -XX:+PrintGCDateStamps) which can be used to print date-wise timestamp in the GC log.
+For example, if we want to assign a maximum of 100 GC log files, each having a maximum size of 50 MB and want to store them in ‘/home/user/log/’ location, we can use below syntax:
+1
+2
+3
+4	-XX:+UseGCLogFileRotation  
+-XX:NumberOfGCLogFiles=10
+-XX:GCLogFileSize=50M 
+-Xloggc:/home/user/log/gc.log
+However, the problem is that one additional daemon thread is always used for monitoring system time in the background. This behavior may create some performance bottleneck; that’s why it’s always better not to play with this parameter in production.
+5. Handling Out of Memory
+It’s very common for a large application to face out of memory error which, in turn, results in the application crash. It’s a very critical scenario and very hard to replicate to troubleshoot the issue.
+That’s why JVM comes with some parameters which dump heap memory into a physical file which can be used later for finding out leaks:
+1
+2
+3
+4	-XX:+HeapDumpOnOutOfMemoryError 
+-XX:HeapDumpPath=./java_pid<pid>.hprof
+-XX:OnOutOfMemoryError="< cmd args >;< cmd args >" 
+-XX:+UseGCOverheadLimit
+A couple of points to note here:
+•	HeapDumpOnOutOfMemoryError instructs the JVM to dump heap into physical file in case of OutOfMemoryError
+•	HeapDumpPath denotes the path where the file is to be written; any filename can be given; however, if JVM finds a <pid> tag in the name, the process id of the current process causing the out of memory error will be appended to the file name with .hprof format
+•	OnOutOfMemoryError is used to issue emergency commands to be executed in case of out of memory error; proper command should be used in the space of cmd args. For example, if we want to restart the server as soon as out of memory occur, we can set the parameter:
+1	-XX:OnOutOfMemoryError="shutdown -r"
+•	UseGCOverheadLimit is a policy that limits the proportion of the VM’s time that is spent in GC before an OutOfMemory error is thrown
+6. 32/64 bit
+In the OS environment where both 32 and 64-bit packages are installed, the JVM automatically chooses 32-bit environmental packages.
+If we want to set the environment to 64 bit manually, we can do so using below parameter:
+1	-d<OS bit>
+OS bit can be either 32 or 64. More information about this can be found here.
+7. Misc
+•	-server: enables “Server Hotspot VM”; this parameter is used by default in 64 bit JVM
+•	-XX:+UseStringDeduplication: Java 8u20 has introduced this JVM parameter for reducing the unnecessary use of memory by creating too many instances of the same String; this optimizes the heap memory by reducing duplicate String values to a single global char[] array
+•	-XX:+UseLWPSynchronization: sets LWP (Light Weight Process) – based synchronization policy instead of thread-based synchronization
+•	-XX:LargePageSizeInBytes: sets the large page size used for the Java heap; it takes the argument in GB/MB/KB; with larger page sizes we can make better use of virtual memory hardware resources; however, this may cause larger space sizes for the PermGen, which in turn can force to reduce the size of Java heap space
+•	-XX:MaxHeapFreeRatio: sets the maximum percentage of heap free after GC to avoid shrinking.
+•	-XX:MinHeapFreeRatio: sets the minimum percentage of heap free after GC to avoid expansion; to monitor the heap usage you can use VisualVM shipped with JDK.
+•	-XX:SurvivorRatio: Ratio of eden/survivor space size – for example, -XX:SurvivorRatio=6 sets the ratio between each survivor space and eden space to be 1:6,
+•	-XX:+UseLargePages: use large page memory if it is supported by the system; please note that OpenJDK 7tends to crash if using this JVM parameter
+•	-XX:+UseStringCache: enables caching of commonly allocated strings available in the String pool
+•	-XX:+UseCompressedStrings: use a byte[] type for String objects which can be represented in pure ASCII format
+•	-XX:+OptimizeStringConcat: it optimizes String concatenation operations where possible
+8. Conclusion
+In this quick article, we learned about some important JVM parameters – which can be used to tune and improve general application performance.
+Some of these can also be used for debugging purposes.
+If you want to explore the reference parameters in more detail, you can get started here.

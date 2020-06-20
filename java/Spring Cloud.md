@@ -1,19 +1,20 @@
 # Spring Cloud
-- Udemy
-
+------------------
 https://github.com/in28minutes/spring-microservices/tree/master/03.microservices
+
 - REST, MQ/Kafka
 - small autonomous services that work together
 - build around business capabilities, auto-deployed, may be written in different languages
 - independently deployable, 
 - cloud enabled (horizontally scalable)
 
+
 ## Config-Server
 Get config from a separate git repository
 Web, DevTools, Actuator, Config Client
 
 Currency-exchange-service
-```
+```shell script
 // Add port to response: so we know which is return the results
 ExchangeValue.setPort(environment.getProperty("local.server.port")));
 
@@ -27,7 +28,9 @@ Currency conversion service
 ## Feign: replace restTemplate
 proxy to make call other service easy
 
+
 ## Ribbon: client side load balance
+
 
 ## Eureka
 Discovery service
@@ -37,11 +40,15 @@ Discovery service
 @EnableZuulProxy
 @EnableDiscoveryClient
 
-•	Authentication/authorization/security, 
-•	rate limits,
-•	fault tolerance, 
-•	service aggregation
+- Authentication/authorization/security, 
+- rate limits,
+- fault tolerance, 
+- service aggregation
+
+```shell script
 Public class ZuulLoggingFilter extends ZuulFilter { }
+```
+
 
 Call through api gateway
 http://localhost:8765/{application-name}/{uri}
@@ -52,21 +59,24 @@ http://localhost:8765/{application-name}/{uri}
 ## Zipkin: Distributed tracing
 Zipkin-ui, zipkin-rabbit, zipkin-server
 
+
 ## Sleuth: unique ID for each request -> trace it manually in each app
 All services publish to RabbitMQ -> Zipkin listen to it -> persist to DB
 - Spring-cloud-starter-sleuth
 - Spring-cloud -sleuth-zipkin
 - Spring-cloud-starter-bus-amqp
 
+
 ## Spring cloud bus
 Change properties in Config -> git commit -> localhost:8080/application/refresh (no need to restart server on 8080) => too much work if we have to refresh 100 servers
-```
+```shell script
 Spring-cloud-starter-bus-amqp
 ```
 Localhost:8080/bus/refresh: this will refresh all app/services
 
+
 ## Hystrix: fault tolerance
-```
+```shell script
 <spring-cloud-starter-hystrix>
 
 @EnableHystrix in application

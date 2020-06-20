@@ -1,0 +1,485 @@
+Java 8
+---------------
+- Course: What's New in Java 8
+- Course: Functional Programming With Java
+Java8 not do this: Access global state, modify input, change the world
+Data in -> data out
+Type safety
+
+## @FunctionalInterface
+Only on method
+
+Think about evaluation before execution
+Treat functions as values (first class function)
+
+Function is isolated, it does not know the outside world. 
+
+Guava: FluentIterable -> filter -> transform -> Joiner
+Java8: Stream -> filter -> map -> reduce
+
+## Lambda expression
+```shell script
+File dir = new File("c:/tmp");
+File[] files = dir.listFiles(new FileFilter() {
+	Public Boolean accept(File file) {
+		Return file.getName().endWith(".java");
+	}
+}
+```
+
+What is the type of lambda expression? 
+A functional interface: an interface with only one abstract method
+Can a lambda be put in a variable?
+	Yes 
+Is lambda expression an object?
+	No object creation overhead for lambda. Answer is complex, but No. exact answer: an object without an identity.
+
+## Java.util.function
+- Supplier: T get()
+- Consumer: accept(T t)
+- BiConsumer: void accept(T t, U u)
+- Predicate: Boolean test(T t)
+- BiPredicate: boolean test(T t, U u)
+- Function<T, R>: R apply(T t)
+- BiFunction<T, U, R>: R apply(T t, U u)
+- UnaryOperator<T> extends Function<T, T>
+- BinaryOperator<T> extends BiFunction<T, T, T>
+
+## Method references
+Another way to write lambda expression
+Consumer<String> c = s -> System.out.println(s);
+Consumer<String> c = System.out::println;
+Comparator<Integer> c = (i1, i2) -> Integer.compare(i1, i2);
+	Comparater<Integer> c = Integer::compare;
+
+## Collections with lambda
+List.forEach(customer -> System.out.println(customer));
+List.forEach(System.out::println);
+Default methods: allows to change the old interfaces
+	Public default isActive() { … }
+Static methods are allowed in Java 8 interfaces!
+	Public static of(String key) { … }
+
+Predicate<String> p1 = s -> s.length() < 20;
+Predicate<String> p1 = s -> s.length() > 10;
+Predicate<String> p1 = p1.and(p2).or(p3);  // (p1 AND p2) OR p3, order or method!
+Predicate<String> id = Predicate.isEqual(target);
+
+Favor immutable classes
+
+Avoid Joda-Time, Date, Calendar, Temporal
+	LocalDate, LocalTime, ZonedDateTime, Instant, OffsetTime, OffsetDateTime
+
+## Stream API and Collectors
+- Do not overdo it
+- Stream not always more readable
+- Good for Collections, less so for Maps
+- Don’t obsess about method references
+- Parallel streams must be used with great care
+- Shared execution pool can be deceiving
+- Learn to love 'Collector' interface, complex but useful
+Intermediary operation
+Map/filter/reduce
+forEach, filter, peak
+Stream: typed interface
+	Public interface Stream<T> extends BaseStream<T, Steram<T>>
+	An object on which one can define operations, does not hold data, process data in one pass, optimized from the algorithm of view
+Efficient: processed in parallel, pipelined to avoid unnecessary intermediary computations
+Persons.stream().forEach(System.out::println)
+Persons.stream().forEach(c1.andThen(c2)); // forEach does not return => chaining
+List.stream().filter(person -> person.getAge() > 20); // takes Predicate as parameter
+
+### Filter() returns a stream, a new instance.
+Stream does not hold data (no filtered data). It’s a just a declaration (data is not processed) => lazy call.
+Peek() returns a stream (forEach does not)
+	.peek(System.out::println) // peek(Consumer)
+	.filter(person -> person.getAge() > 20) // filter(Predicate)
+	.peek(result::add) //forEach(result::add) will trigger process, filter/peek does not
+
+### Map, flatMap
+List<List<Integer>> list = Arrays.asList(list1, list2, list3);
+
+Function<List<?>, Integer> size = list::size;
+Function<List<Integer>, Stream<Integer>> flatmapper =
+        l -> l.stream();
+
+list.stream()
+        .flatMap(flatmapper)
+        .forEach(System.out::println);
+
+### Reduction
+Reduce, max, min
+List<Integer> ages = …
+BinaryOperation<Integer> sum = (i1, i2) -> i1+i2;
+Int red = stream.reduce(0, sum);
+Ages.stream().reduce(0, (age1, age2) -> age1 + age2);
+Bifunction: if there is only 1 element, it will return the element
+
+### Optional
+Use instead of null for public return method.
+•	Optional is a class
+•	Some memory/performance cost to using it
+•	Not serializable
+•	Not ideal to be an instance variable
+•	JDK authors added it for return types
+•	Use in parameters often annoying for callers
+•	Use as return type gets best value from concept
+“I may not return a value”
+Optional<Integer> max = ages.stream.max(Comparator.naturalOrder());
+Return type of max() is Optional (not Integer)
+
+Optional<String> opt = …
+If(opt.isPresent()) {…	//try to avoid
+Opt.orElse(“ ”);	// good
+Opt.orElseThrow(MyException::new);  // lazy construct
+
+// no need to check if(user == null)
+String name = Optional.ofNullable(user).map(User::getName).orElse(“404”);
+
+### Reductions
+Max(), min(), count()
+allMatch(), noneMatch(), anyMatch()
+findFirst(), findAny()
+reduction are terminal operations
+persons.stream()
+	.map(person -> person.getAge())
+	.filter(age -> age > 20)
+	.min(Comparator.naturalOrder())	// trigger process
+Persons.stream()
+	.map(person -> person.getLastName())
+	.allMatch(length < 20);  // all evaluated in one pass
+
+List<Integer> list = Arrays.asList(-10);
+Integer red = list.stream().reduce(0, Integer::sum);
+Integer max = list.stream().reduce(0, Integer::max);; // 0, wrong
+Optional<Integer> red = list.stream().reduce(Integer::max); // Optional(-10), correct
+Collectors
+Collect, Collectors
+Mutable reduction, instead of aggregation (reduction), put them in a container
+Persons.stream().filter(person -> person.getAge() > 20)
+	.map(Person::getLastName)
+	//.collect(Collectors.joining(“, “)); // String of names
+	.collect(Collectors.groupingBy(Person::getAge)); // map of people, key is age, value is list of people
+	.collect(Collectors.groupingBy(Person::getAge), Collectors.counting()); // map: age -> count (Long) of people
+.collect(Collectors.groupingBy(Person::getAge), Collectors.mapping(Person::getName, Collectors.toList()); // map: age -> list of names
+Collectors.toCollection(TreeSet::new)
+Collectors.joinint(“, “)
+
+Optional<Person> opt = stream.min(Comparator.comparing(Person::getAge());
+Optional<Person> opt2 = stream.max(Comparator.comparing(Person::getAge()); // exception! Stream can not be reused!! Have to create a new stream! List.stream()
+
+### Date and Time API
+Calendar cal = Calendar.getInstance();
+Cal.set(2014, 1, 10); // 2014/2/10
+Cal.add(Calendar.DAY_OF_MONTH, -1); // yesterday
+Date calss is mutable. To make is immutable:
+	New Date(this.creationDate.getTime());
+New API Java.time
+
+- Instant
+Instant: a point on the time line, precision is nanosecond, immutable
+	0: 1970/1/1, GMT
+	Instant.MIN: 1 billion years ago
+	Instant.MAX: 12/31 of year 1,000,000,000
+	Instant.now(): same as new Date()
+	
+- Duration
+Instant start = instant.now();
+Instant end = instant.now();
+Duration elapsed  = Duration.between(start, end);
+Long millis = elapsed.toMillis();  // 
+toNanos(), toSeconds(), toMinutes(), toHours(), toDays(), minusNanos(), plusNanos(), multipliedBy(), dividedBy(), negated(), isZero(), isNegative()
+
+- LocalDate
+LocalDate now = LocalDate.now();
+LocalDate db  = LocalDate.of(1564, Month.APRIL, 23);
+
+- Period
+Similar to duration, same methods
+Period p = db.until(now); // p = Period.between(p.getDateOfBirth(), now);
+p.getYears();  // p.get(ChronoUnit.YEARS);
+p.get(ChronoUnit.MONTHS); // note: this is the diff in one year!
+db.until(now. ChronoUnit.MONTHS); // this is all the months in all years! Can’t get it directly from period.
+long days = db.until(now, ChronoUnit.Days);
+
+BufferedReader reader = new BufferedReader(new InputStreamReader(lambdaDemo.class.getResourceAsStream("dates")));
+Stream<String> dateStream = reader.lines();
+Month month = Month.of(Integer.parseInt(a[2]));
+
+- DateAdjuster
+Add or substract amount of time, 14 static methods
+LocalDate now = LocalDate.now();
+LocalDate nextSunday = now.with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
+firstInMonth(DayOfWeek.MONDAY) // first Monday 
+lastInMonth(DayOfWeek.TUESDAY) // last Tuesday
+dayOfWeekInMonth(2, DayOfWeek.THURSDAY) // Thursday in 2nd week
+next(DayOfWeek.SUNDAY)
+nextOrSame(DayOfWeek.SUNDAY)
+previous(DayOfWeek.SUNDAY)
+previousOrSame(DayOfWeek.SUNDAY)
+
+- LocalTime
+LocalTime now = LocalTime.now();
+LocalTime time = LocalTime.of(10, 20);  // 10:20
+Time.plusHous(8);
+
+- ZonedTime
+IANA database
+Set<String> allZonesIds = ZoneId.getAvailableZoneIds();
+String ukTZ = ZoneId.of(“Europe/London”);
+ZonedDateTime.of(1564, Month.APRIL.getValue(), 23, // year, month, day
+        10, 0, 0, 0,    // h / mn / s / ns
+        ZoneId.of("Europe/London"));
+// 1564-04-23T10:00-00:01:15[Europe/London]
+
+ZonedDateTime meeting = ZonedDateTime.of(
+        LocalDate.of(2014, Month.MARCH, 12),
+        LocalTime.of(9, 30),
+        ZoneId.of("Europe/London")
+);
+
+ZonedDateTime nextMeeting = meeting.plus(Period.ofMonths(1));
+ZonedDateTime nextMeetingUS = nextMeeting.withZoneSameInstant(ZoneId.of("US/Central"));
+
+DateTimeFormatter
+DateTimeFormatter.ISO_DATE_TIME.format(nextMeetingUS);
+DateTimeFormatter.RFC_1123_DATE_TIME.format(nextMeetingUS);
+// prints: Sat,  12, Apr 2014 03:30:00 -0500
+
+## Bridges between APIs
+Date date = Date.from(instant);
+Instant ins = date.toInstant();
+TimeStamp time = TimeStamp.from(instant);
+Instant ins = time.toInstant();
+Date date = Date.from(localDate);
+LocalDate localDate = date.toLocalDate();
+Time time = Time.from(localTime);
+localTime localTime = time.toLocalTime();
+
+### String, IO, and others
+Comparators, Numbers, Maps, Annotations
+String s = "Hello world!";
+Stream stream = s.chars();  // IntStream??
+StringJoiner
+StringJoiner sj = new StringJoiner(", ", "{", "}"); // delimiter, prefix, suffix
+sj.add("one").add("two").add("three");
+System.out.println(sj); // {one, two, three}
+
+String s2 = String.join(", ", "one", "two", "three"); // or take an array
+System.out.println(s2);
+
+### Files
+```shell script
+try {
+    BufferedReader reader = new BufferedReader(
+            new FileReader(
+                    new File("d:/temp/debug.log")
+            )
+    );
+    
+    reader.lines()
+            .filter(line -> line.contains("ERROR"))
+            .findFirst()
+            .ifPresent(System.out::println);
+} catch (FileNotFoundException e) {
+    e.printStackTrace();
+}
+
+Path path = Paths.get("d:", "temp", "debug.log");
+Stream<String> stm = Files.lines(path);
+
+Stream implements AutoCloseable, will close the underlying file.
+try {
+    //Stream<Path> stream2 = Files.list(Paths.get("c:", "windows")); // top folder
+    Stream<Path> stream2 = Files.walk(Paths.get("c:", "windows"), 2); // down 2 level
+    stream2.filter(path2 -> path2.toFile().isDirectory())
+            .forEach(System.out::println);
+} catch (IOException e) {
+    e.printStackTrace();
+}
+```
+
+
+
+## Collection API
+Stream(), parallelStream(), spliterator()
+forEach() is added to Iterable
+Boolean b = list.removeIf(s - > s.length() > 4); // remove words whose length > 4
+List.replaceAll(String::toUpperCase);  // no return
+List.sort(Comparator.naturalOrder()); // no return
+
+## Comparators
+// JDK7
+Comparator<Person> compareLastName = Comparator.comparing(Person::getLastName)
+	.thenComparing(Person::getFirstName);
+Comparator<String> c = Comparater.nullsFirst(Comparator.naturalOrder()); // nullsLast()
+
+## Numbers
+```shell script
+Long.max(1l, 2l);
+BinaryOperator<Long> sum = (l1, l2) -> 11 + l2;  // simpler: Long::sum
+Hashcode of long number
+Long l = 3123423425123421L;
+Int hash = new Long(L).hashCode();   // JDK7
+Int hash = Long.hashCode(l); // JDK8
+```
+
+
+## Maps
+```shell script
+Map<String, Person> map = ...
+map.forEach((key, person) -> System.out.println(key, + " " + person); //takes BiConsumer as a parameter
+
+Person p = map.get(key);  // JDK7, p can be null
+Person p = map.getOrDefault(key, defaultPerson); // JDK8, if no values in map
+
+Map.put(key, person); // JDK7, erase existing
+Map.putIfAbsent(key, person); // JDK8
+
+Map.replace(key, person); // overwrite
+Map.replace(key, oldPerson, newPerson);
+Map.replaceAll((key, oldPerson) -> newPerson);
+
+Map.remove(key); // JDK7
+Map.remove(key, person); // JDK8, check both key and person
+
+Map.compute(key, person, (key, oldPerson) -> newPerson); // returns the computed value
+Map.computeIfPresent(key, person, (key, oldPerson) -> newPerson);
+Map.computeIfAbsent(key, key -> newPerson); 
+
+// useful to creat bimaps
+Map<String, Map<Integer, Person>> bimap = ...
+Person p = ...;
+Bimap.computeIfAbsent(key1, key -> new HashMap<>()).put(key2, p);
+
+Map.merge(key, person, (key, person) -> newPerson);
+```
+
+
+// merge two maps
+```shell script
+Map<Integer, List<Person>> map1 = new HashMap<>();
+Map<Integer, List<Person>> map2 = new HashMap<>();
+map2.entrySet().stream()
+        .forEach(
+            entry -> map1.merge(entry.getKey(), entry.getValue(), (l1, l2) -> {
+                l1.addAll(l2);
+                return l1;
+            })
+        );
+```
+
+
+
+// create bimap
+```shell script
+List<Person> persons = new ArrayList<>();
+Map<Integer, List<Person>> map = persons.stream().collect(
+        Collectors.groupingBy(Person::getAge)
+);
+
+Map<Integer, Map<String, List<Person>>> bimap = new HashMap<>();
+persons.forEach(person -> bimap.computeIfAbsent(
+        person.getAge(),
+        HashMap::new
+	// return the Hashmap from computeIfAbsent()
+    ).merge(person.getGender(),
+        new ArrayList<>(Arrays.asList(person)),
+        (l1, l2) -> {
+            l1.addAll(l2);
+            return l1;
+        })
+);
+```
+
+
+bimap.forEach((age, m) -> System.out.println(age + " -> " + m));
+
+## Annotations
+// JDK7
+@TestCases({
+	@TestCase(param=1, expected=false),
+	@TestCase(param=2, expected=true)
+})
+
+// JDK8
+@Repeatable(TestCasess.class)
+@interface TestCase {
+	Int param();
+	Boolean expected();
+}
+@interface TestCases { TestCase[] value(); }
+
+//list should not be null, and no null values
+Private @NonNull List<@NonNull Person> persons = ..
+
+# Java8 best practice
+http://www.slideshare.net/scolebourne/java-se-8-best-practices-53975908
+(p1, p2) -> p1.name.compareTo(p2.name); // Person p1
+Str -> str.toUpperCase(Locale.US); // (str) no need parenthesis
+	Str -> {return str.toUpperCase(Locale.US) };
+
+Public Foo parse(Locale local, Function<Locale, Foo> fn) // put Functional interface last
+Converts checked exception to unchecked
+Public Function<String, Class> loader() {
+	Return Unchecked.function(className -> Class.forName(className));
+
+Foo foo = findFoo(key).orElse(Foo.DEFAULT); 
+Avoid optFoo.isPresent(). Use instead of null on public return types (not parameter).
+
+Stream focus was on collections, not maps. Key goal was simple parallelism (use with care).
+Collector interface is complex but useful. 
+
+Interfaces
+- New macro-design options
+- Instead of factory class, use static method on interfaces
+- Instead of abstract class, use interface with defaults
+- Result tends to be few classes and better API
+
+- Avoid java.util.Date and java.util.Calendar
+- Use ThreeTen-Extra if necessary: http://www.threeten.org/threeten-extra
+- Focus on: LocalDate, LocalTime, ZonedDateTime, Instant
+- Network formats like XML/JSON use offset types: OffsetTime, OffsetDateTime
+
+
+Java Stream
+---------------
+
+map, filter, distinct, sorted, peek
+
+## Terminal operations
+|Function | Output | When to use |
+| --------|---------|-------------|
+|reduce	    |concrete type	|to cumulate elements|
+|collect	|list, map or set	|to group elements|
+|forEach	|side effect	|to perform a side effect on elements|
+
+
+```shell script
+  library.stream()
+          .map(book -> book.getAuthor())
+          .filter(author -> author.getAge() >= 50)
+          .map(Author::getSurname)
+          .map(String::toUpperCase)
+          .distinct()
+          .limit(15)
+          .collect(toList()));
+```
+
+```shell script
+   library.stream()
+          .map(Book::getAuthor)
+          .filter(author -> author.getGender() == Gender.FEMALE)
+          .map(Author::getAge)
+          .filter(age -> age < 25)
+          .reduce(0, Integer::sum)
+```
+
+One important thing to note is that parallel streams achieve parallelism through threads using the 
+existing common ForkJoinPool. As a result there are possible complications as we detailed in this 
+previous RebelLabs post. Using parallel streams can cause concurrency issues depending on 
+what you’re doing in your stream as well. Make sure you need to use a parallel stream for a big enough job
+```shell script
+library.parallelStream()...
+IntStream.range(1, 10).parallel()...
+```
