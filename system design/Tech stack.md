@@ -1,9 +1,9 @@
+Tech stack
+============
 https://www.allthingsdistributed.com/2006/03/a_word_on_scalability.html
 A service is said to be scalable if when we increase the resources in a system, it results in increased performance in a manner proportional to resources added.
 Scalable, redundant/resilient
 
-Tech stack
-============
 1.	Maintainable, reusable, testable
 2.	Principles
     a.	DRY: don't repeat yourself
@@ -63,7 +63,12 @@ Tech stack
 19.	Socket IO
 20.	GC, VM
 21.	Big data
-    a.	Spark, storm
+  - Spark, flink
+  - spring security/OAuth2/SSR/XSF
+  - kubernetes
+  - elastic search
+  - aws
+  - mongodb, , Android, iOS, React.js, electron/openfin, lambda, Cassandra, GraphQL, service mesh
 22.	Websocket
 23.	Linux
 24.	Android, IOS
@@ -87,18 +92,8 @@ Tech stack
 31.	Scheduling
     - Autosys
     - Quartz
-
-Tech stacks
-Spark/flink, spring security/OAuth2/SSR/XSF, kubernetes, gradle, elastic search, aws, websocket, mongodb, blockchain, Android, iOS, React.js, electron/openfin, lambda, Cassandra, GraphQL, service mesh
+32. blockchain
 
 
-Architecture patterns
-1.	Layered/n-tier: presentation – business – persistence
-    a.	Moder patter is still similar. Electrode: React.js + Node.js + Cassandra
-    b.	Sharded: distribute request to different shards (a-f, g-k…)
-2.	Microservices
-3.	Microkernernal with plugins
-    a.	VSCode, Browser
-4.	Lambda
-5.	Event based 
-    a.	Kafka
+
+

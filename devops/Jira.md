@@ -1,4 +1,5 @@
-# Jira
+Jira
+=======
 Course: Scrum Development with Jira & JIRA Agile
 
 New project -> agile scrum -> Gantt-chart

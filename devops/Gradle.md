@@ -1,4 +1,5 @@
-# Gradle
+Gradle
+========
 
 Course: Gradle Fundamentals
 ## Introduction

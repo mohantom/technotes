@@ -1,6 +1,10 @@
-Design patterns
----------------
+Design Patterns
+===================
+reusable and extensible OOP
 
+encapsulation, abstraction, inheritance, polymorphism
+
+## Principles
 1.开-闭原则（ocp）：一个软件实体应该对扩展开放（底层对业务的实现应该是可灵活改变的，针对接口编程？），对修改关闭（高层的业务逻辑由抽象类定义，确定后不能修改） 
   eg:模版方法，好莱坞原则 
 2.里氏代换原则（lsp）：任何基类适应的地方，子类一定适用（继承？） 
@@ -18,7 +22,14 @@ Design patterns
 
 6.迪米特法则（lod），也称最少知识原则：一个对象或模块应该和其它对象和模块尽量少的通信（高内聚），涉及的模式有：门面模式，调停者模式，前端控制器模式，业务代表模式，dao模式 
 
-23中设计模式：
+## SOLID principles
+- Single responsibility 
+- Open-closed
+- Liskov substitution principle
+- Interface segregation principle
+- Dependency inversion principle
+
+## 23 设计模式：
 
 接口型：适配器模式（Adapter）、外观模式（Façade）、合成模式（Composite）、桥接模式（Bridge）；
 
@@ -62,7 +73,10 @@ Y.A.G.N.I - You Ain't Gonna Need It - Don't code out every little detail that yo
 
 K.I.S.S. - Keep It Stupid Simple - When in doubt, make it easy to understand.  Don't try to build in too much complexity.  If a particular design pattern overly complicates things (vs. an alternative or none at all) then don't implement it.  This applies heavily to user interface design and APIs (application programming interfaces).
 
-P.O.L.A. - Principle Of Least Astonishment - This has overlap with KISS...  Do the least astonishing thing.  In other words: DON'T BE CLEVER.  It's nice that you can squeeze a ton of detail into a single line of code.  But your future self and other developers will judge it by the number of "F"-words per minute when they open your source file.  It should be relatively easy to jump into what your code is doing, even for an outsider who isn't quite as clever as you are.
+P.O.L.A. - Principle Of Least Astonishment - This has overlap with KISS...  Do the least astonishing thing.  
+In other words: DON'T BE CLEVER.  It's nice that you can squeeze a ton of detail into a single line of code.  
+But your future self and other developers will judge it by the number of "F"-words per minute when they open your source file.  
+It should be relatively easy to jump into what your code is doing, even for an outsider who isn't quite as clever as you are.
 
 Last, and most certainly NOT least...
 
@@ -95,10 +109,10 @@ Modify behavior (adds) and also provide a different interface.
 ## Decorator
 ```shell script
 //改写com.mysql.jdbc.Connection中的close方法, 在调用时, 不是关闭连接而是返回池中
-public class MyConnection implements Connection{  //java.sql.Connection
+public class MyConnection implements Connection {  //java.sql.Connection
 	private Connection conn;// 引用被改写对象
 	private LinkedList<Connection> pool;
-	public MyConnection(Connection conn,LinkedList<Connection> pool){//  通过构造方法注入需要的对象, 类似Spring
+	public MyConnection(Connection conn, LinkedList<Connection> pool){//  通过构造方法注入需要的对象, 类似Spring
 		this.conn = conn;
 		this.pool = pool;
 	}
@@ -123,6 +137,24 @@ public class MyBufferedReader extends BufferedReader{
 	}
 }
 
+```
+
+Also called wrapper, add behavior without affecting others. More than just inheritance, single responsibility principle.
+Java.io.InputStream
+UI components
+
+Inheritance based
+Utilizes composition and inheritance (is-a, has-a)
+Alternative to subclassing
+Constructor requires instance from hierarchy
+
+// Java example
+```shell script
+File file = new File("./output.txt");
+file.createNewFile();
+OutputStream oStream = new FileOutputStream(file);
+DataOutputStream doStream = new DataOutputStream(oStream);
+doStream.writeChars("text");
 ```
 
 ## Dynamic proxy
@@ -234,6 +266,7 @@ public class Report {
 }
 	这个时候，我们好像看不到任何问题。	但是，需求是在不断的变化的。	比如说：我想在表头做一些修改，怎么办？改动代码。过一段时间，我又想在正文添加一些内容，怎么办？继续改动代码？这样，如果还有其他的需求，那么，最终我感觉就崩溃了。
 	怎么解决呢？就可以采用我刚才说的模板方法模式改进。	改进的过程请查看代码。
+```shell script
 public abstract class Report {
 	public void print() {
 		printTitle();
@@ -257,7 +290,7 @@ public class ReportImpl extends Report {
 		System.out.println("打印表尾");	}
 }
 
-// 如果有新的需求，可以另外写一个实现，不需要改动原来的实现。
+// 如果有新的需求, 可以另外写一个实现. 不需要改动原来的实现.
 public class ReportImpl2 extends Report {
 	@Override
 	public void printTitle() {
@@ -269,6 +302,8 @@ public class ReportImpl2 extends Report {
 	public void printTail() {
 		System.out.println("使用另外的方式打印表尾");	}
 }
+```
+
 
 总结：
 	模板方法模式：抽象的骨架类，具体的实现类。
@@ -281,6 +316,7 @@ public class ReportImpl2 extends Report {
 
 实际应用：
 	需求：计算一个程序的运行时间。
+```shell script
 public class GetTime {
 	public void getTime() {
 		long start = System.currentTimeMillis();
@@ -292,6 +328,8 @@ public class GetTime {
 		System.out.println("毫秒：" + (end - start));
 	}
 }
+```
+
 	这个时候，虽然完成了我们的功能，但是不好。 因为我们是直接在main方法里面做的。注意：main方法是测试别人写好的东西的。你不能直接把很多的代码都写在main里面。所以，我们需要改进。用一个类来封装代码改进。GetTime
 虽然我们用一个类改进了代码，但是还是会有问题？问题是：我们要运行的代码是不固定的。
 		// 比如说：我不喜欢for循环，我喜欢while，改代码。
@@ -300,6 +338,7 @@ public class GetTime {
 		// 怎么办呢？用抽象类定义一个算法骨架
 	定义一个GetTime类。
 	定义具体的实现类。
+```shell script
 public abstract class GetTime {
 	public void getTime() {
 		long start = System.currentTimeMillis();
@@ -315,10 +354,12 @@ public abstract class GetTime {
 
 Public class ForDemo extends GetTime {
 	@Override
-	Public void code() {
+	Public void getTime() {
 		// 
 	}
 }
+```
+
 
 //测试
 		GetTime gt = new ForDemo(); // 多态̬
@@ -549,22 +590,8 @@ public class TestStock {
 
 ## Composite
 
-## Decorator
-Also called wrapper, add behavior without affecting others. More than just inheritance, single responsibility principle.
-Java.io.InputStream
-UI components
 
-Inheritance based
-Utilizes composition and inheritance (is-a, has-a)
-Alternative to subclassing
-Constructor requires instance from hierarchy
 
-// Java example
-File file = new File("./output.txt");
-file.createNewFile();
-OutputStream oStream = new FileOutputStream(file);
-DataOutputStream doStream = new DataOutputStream(oStream);
-doStream.writeChars("text");
 
 ## Façade
 
@@ -572,6 +599,72 @@ doStream.writeChars("text");
 ## Flyweight
 
 Memory management
+
+
+## Memento
+Editor with undo feature
+do not store history states in Editor class, instead create HI
+```shell script
+public class Editor {
+  private String content;
+
+  public String getContent() {
+    return content;
+  }
+
+  public EditorState createState() {
+    return enw EditorState(conetent);
+  }
+
+  public EditorState restore(state) {}
+}
+
+@Data
+@Builder
+public class EditorState {  // memento
+  private String content;
+}
+
+public class History {
+  private List<EditorState> states;
+  public EditorState push(state) {}
+  public EditState pop() {}
+}
+```
+
+## State
+allow object behaves differently when state changes. using polyphorphism
+open-close principle
+ ```shell script
+public class Canvas {  // context
+  private Tool currentTool
+  public mouseDown() {
+    currentTool.mouseDown();
+  }
+  mouseUp() {
+    currentTool.mouseUp();
+  }
+}
+
+// interface
+pulibc interface Tool {  // State
+  void mouseDown();
+  void mouseUp();
+}
+
+public class Selection implements Tool { // ConcreteStateA
+  public void mouseDown() {}
+  public void mouseUp() {}
+}
+
+public class Brush implements Tool { // ConcreteStateB
+  public void mouseDown() {}
+  public void mouseUp() {}
+}
+```
+
+Do not abuse design patterns, keep it simple.
+
 
 
 
