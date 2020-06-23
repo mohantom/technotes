@@ -38,7 +38,7 @@ Scalable, redundant/resilient
 9.	Security
     a.	Spring security
     b.	OAuth2, SSR, JWT
-    c.	XSF
+    c.	XSF, CSRF attack
 10.	Logging
     a.	Logback, Log4J, Slf4j
     b.	Elastic

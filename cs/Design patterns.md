@@ -22,23 +22,16 @@ encapsulation, abstraction, inheritance, polymorphism
 
 6.迪米特法则（lod），也称最少知识原则：一个对象或模块应该和其它对象和模块尽量少的通信（高内聚），涉及的模式有：门面模式，调停者模式，前端控制器模式，业务代表模式，dao模式 
 
-## SOLID principles
-- Single responsibility 
-- Open-closed
-- Liskov substitution principle
-- Interface segregation principle
-- Dependency inversion principle
 
 ## 23 设计模式：
+- Creational: deal with creation of objects
+- Structural: concerned  with the structure (eg, class members)
+- Behavioral: no central theme
 
 接口型：适配器模式（Adapter）、外观模式（Façade）、合成模式（Composite）、桥接模式（Bridge）；
-
 职责型：单例模式（Singleton）、观察者模式（Observer）、调停者模式（Mediator）、代理模式（Proxy）、职责链模式（Chain of Responsibity）、享元模式（Flyweight）；
-
 构造型：构建者模式（Builder）、工厂方法模式（Factory Method）、抽象工厂模式（Abstract Factory）、原型模式（Prototype）、备忘录模式（Memento）；
-
 操作型：模板方法模式（Template Method）、状态模式（State）、策略模式（Strategy）、命令模式（Command）、解释器模式（Interpreter）；
-
 扩展型：装饰器模式（Decorator）、迭代器模式（Iterator）、访问者模式（Visitor）。
 
 
@@ -67,33 +60,39 @@ mvc模式:解决模型层与视图层的耦合问题
 
 
 ## Design principles
-D.R.Y. - Don't Repeat Yourself - Pretty much self-explanatory.  If you are re-writing the same block(s) of code in various places then you are ensuring that you'll have multiple places to change it later.  This is probably the #1 warning flag that you should look into an alternative/pattern.
+- DRY - Don't Repeat Yourself - Pretty much self-explanatory.  If you are re-writing the same block(s) of code in 
+various places then you are ensuring that you'll have multiple places to change it later.  This is probably the #1
+ warning flag that you should look into an alternative/pattern.
 
-Y.A.G.N.I - You Ain't Gonna Need It - Don't code out every little detail that you can possibly think of because, in reality, you probably won't end up needing much of it.  So just implement what is absolutely necessary (save the GUI until later, for example!)
+- YANGNI - You Ain't Gonna Need It - Don't code out every little detail that you can possibly think of because, 
+in reality, you probably won't end up needing much of it.  So just implement what is absolutely necessary 
+(save the GUI until later, for example!)
 
-K.I.S.S. - Keep It Stupid Simple - When in doubt, make it easy to understand.  Don't try to build in too much complexity.  If a particular design pattern overly complicates things (vs. an alternative or none at all) then don't implement it.  This applies heavily to user interface design and APIs (application programming interfaces).
+- KISS - Keep It Stupid Simple - When in doubt, make it easy to understand.  Don't try to build in too much complexity.  
+If a particular design pattern overly complicates things (vs. an alternative or none at all) then don't implement it. 
+This applies heavily to user interface design and APIs (application programming interfaces).
 
-P.O.L.A. - Principle Of Least Astonishment - This has overlap with KISS...  Do the least astonishing thing.  
+- POLA - Principle Of Least Astonishment - This has overlap with KISS...  Do the least astonishing thing.  
 In other words: DON'T BE CLEVER.  It's nice that you can squeeze a ton of detail into a single line of code.  
 But your future self and other developers will judge it by the number of "F"-words per minute when they open your source file.  
 It should be relatively easy to jump into what your code is doing, even for an outsider who isn't quite as clever as you are.
 
 Last, and most certainly NOT least...
 
-S.O.L.I.D.  (I saved this for last because it's more specific, but it should probably land around #2 on this list)
-
-Single Responsibility - A class should have only one reason to change;  Do one thing and do it well.
-Open/Closed Principle - A class should be open for "extension" but closed for "modification".
-L. Substitution Principle - Derived (sub) classes should fit anywhere that their base (super) class does.
-Interface Segregation - Multiple specific interfaces are better than one general-purpose interface.
-Dependency Inversion - Depend on abstractions NOT on concrete implementations.  (Depend on abstract classes and interfaces, which can't be instantiated, rather then any specific instance)
+- SOLID
+    - Single Responsibility - A class should have only one reason to change;  Do one thing and do it well.
+    - Open/Closed Principle - A class should be open for "extension" but closed for "modification".
+    - Liskov Substitution Principle - Derived (sub) classes should fit anywhere that their base (super) class does.
+    - Interface Segregation - Multiple specific interfaces are better than one general-purpose interface: 
+        Printer, Scanner, Fax instead of Printer with print(), scan(), fax()
+        Or use decorator: AIOPrinter { private printer; private scanner; }
+    - Dependency Inversion - Depend on abstractions NOT on concrete implementations.  (Depend on abstract classes and interfaces, which can't be instantiated, rather then any specific instance)
 
 
 
 Course: Design Patterns in Java Structural
 Singleton, factory, strategy
-Adapter
-Legacy code -> adapter
+Adapter: Legacy code -> adapter
 Arrays.asList(arrayOfInts);
 
 Take legacy class as member
@@ -603,7 +602,8 @@ Memory management
 
 ## Memento
 Editor with undo feature
-do not store history states in Editor class, instead create HI
+do not store history states in Editor class, instead create History
+like js state management?
 ```shell script
 public class Editor {
   private String content;
@@ -666,9 +666,988 @@ public class Brush implements Tool { // ConcreteStateB
 Do not abuse design patterns, keep it simple.
 
 
+Udemy: Design Patterns in Java (2017, 10.5 hrs)
+
+// creational: builder, factories, prototype, singleton
+## Builder
+StringBuilder
+Fluent builder: lombok @Builder
+
+## Factories
+obejct creation logic becomes too convoluted, can lead to overloading hell => outsource to a separate method/class (factory, internal or external class)
+```shell script
+public static Point newCartesianPoint(double x, double y) {
+  return new Point(x, y);
+}
+public static Point newPolarPoint(double rho, double theta) {
+  return new Point(rho * Math.cos(theta), rho * Math.sin(theta));
+}
+```
+
+## Prototype
+when it's easier to copy an existing object to fully initialize a new one
+an exisiting design is a prototype, make a partial/full copy (deep) and customize
+```shell script
+@Override
+public Object clone() {
+  return new Person(names.clone, address.clone);
+}
+```
+Not recommended to implement Cloneable interface (didn't specify shallow or deep copy)
+```shell script
+// copy constructor
+publi Address(Address other) {
+  this(other.streetAddress, other.city, other.country);
+}
+
+// copy via deserialization
+String addressStr = objectMapper.writeValueAsString(address);
+Address addressCopy = objectMapper.readValue(addressStr, Address.class);
+
+// ObjectsUtil
+// Lombok @Builder(toBuilder = true): this is soft copy!
+```
+
+
+## Singleton
+problems: 
+- private constructor can be defeated by reflection
+- can still create another instance via deserialization, to prevent:
+```shell script
+protected Object readResolve() {
+  return SINGLETON_INSTANCE;
+}
+```
+Or use Inner static Singleton: see [Inner Singleton](../java/2.%20Multithreading.md)
+
+- double-checked locking
+```shell script
+public static LazySingleTon getInstance() {
+  if (instance == null) {
+    synchronized (LazySingleton.class) {
+      if (instance == null) {
+        instance = new LazySingleton();
+      }
+    }
+  }
+}
+
+```
+- enum based Singleton
+// enum constructor is always private; when serialized, it serialize the name, not the value. So deserialize can't create the exact copy.
+```shell script
+enum EnumBasedSingleton {
+  INSTANCE;
+  private int value;
+  public getValue() {
+    return value;
+  }
+}
+```
+
+- monostate (not recommended)
+make all fields static, so they are the same across all instances
+
+- multiton
+limit instance types 
 
 
 
+structural design patterns
+## Adapter
+adapts an existing interface X to conform to required interface Y
+```shell script
+public class WebDriverAdapter implements WebDriver {
+  private IeDriver ieDriver;
+
+  @Override
+  public void getElement() {
+    ieDriver.findElement(); // ie has findElement()
+  } 
+
+  @Override
+  public void selectElement() {
+    ieDriver.clickElement(); // ie has clickElement()
+  } 
+
+}
+```
+
+
+## Bridge
+--------- review again
+a mechanism that decouples an interface (hierarchy) from an implementation (hierarchy)
+```shell script
+interface Renderer {
+  void renderCircle(float radius);
+}
+
+class VectorRenderer implements Renderer {
+  @Override
+  public void renderCircle(float radius) {
+    System.out.println("Drawing a circle of radius " + radius);
+  }
+}
+
+class RasterRenderer implements Renderer {
+  @Override
+  public void renderCircle(float radius) {
+    System.out.println("Drawing pixels for a circle of radius " + radius);
+  }
+}
+
+abstract class Shape {
+  protected Renderer renderer;
+
+  public Shape(Renderer renderer) {
+    this.renderer = renderer;
+  }
+
+  public abstract void draw();
+  public abstract void resize(float factor);
+}
+
+class Circle extends Shape {
+  public float radius;
+
+  @Inject
+  public Circle(Renderer renderer) {
+    super(renderer);
+  }
+
+  public Circle(Renderer renderer, float radius) {
+    super(renderer);
+    this.radius = radius;
+  }
+
+  @Override
+  public void draw() {
+    renderer.renderCircle(radius);
+  }
+
+  @Override
+  public void resize(float factor) {
+    radius *= factor;
+  }
+}
+
+class ShapeModule extends AbstractModule {
+  @Override
+  protected void configure() {
+    bind(Renderer.class).to(VectorRenderer.class);
+  }
+}
+
+class BridgeDemo {
+  public static void main(String[] args) {
+//    RasterRenderer rasterRenderer = new RasterRenderer();
+//    VectorRenderer vectorRenderer = new VectorRenderer();
+//    Circle circle = new Circle(vectorRenderer, 5);
+//    circle.draw();
+//    circle.resize(2);
+//    circle.draw();
+
+    // todo: Google Guice
+    Injector injector = Guice.createInjector(new ShapeModule());
+    Circle instance = injector.getInstance(Circle.class);
+    instance.radius = 3;
+    instance.draw();
+    instance.resize(2);
+    instance.draw();
+  }
+}
+```
+
+
+## Composite
+------------ review
+treating individual and aggregate objects uniformly
+Foo or List<Foo> will be treated the same way
+```shell script
+class GraphicObject
+{
+  protected String name = "Group";
+
+  public String color;
+  public List<GraphicObject> children = new ArrayList<>();  // can be single GraphicObject or a list
+```
+
+Neural Networks
+```shell script
+interface SomeNeurons extends Iterable<Neuron> {
+  default void connectTo(SomeNeurons other) {
+    if (this == other) return;
+
+    for (Neuron from : this)
+      for (Neuron to : other) {
+        from.out.add(to);
+        to.in.add(from);
+      }
+  }
+}
+
+class Neuron implements SomeNeurons {
+  public ArrayList<Neuron> in, out;
+
+  @Override
+  public Iterator<Neuron> iterator() {
+    return Collections.singleton(this).iterator();
+  }
+
+  @Override
+  public void forEach(Consumer<? super Neuron> action) {
+    action.accept(this);
+  }
+
+  @Override
+  public Spliterator<Neuron> spliterator() {
+    return Collections.singleton(this).spliterator();
+  }
+}
+
+class NeuronLayer extends ArrayList<Neuron> implements SomeNeurons {
+}
+
+class NeuralNetworksDemo {
+  public static void main(String[] args) {
+    Neuron neuron = new Neuron();
+    Neuron neuron2 = new Neuron();
+    NeuronLayer layer = new NeuronLayer();
+    NeuronLayer layer2 = new NeuronLayer();
+
+    neuron.connectTo(neuron2);
+    neuron.connectTo(layer);
+    layer.connectTo(neuron);
+    layer.connectTo(layer2);
+  }
+}
+```
+
+## Decorator
+augment an object with additional functionality (enriched or new methods)
+```shell script
+class ColoredShape implements Shape {
+  private Shape shape;
+  private String color;
+
+  @Override
+  public String info() {
+    return shape.info() + " has the color " + color;
+  }
+}
+
+// static decorator composition
+// we are NOT altering the base class of these objects
+// cannot make ColoredSquare, ColoredCircle
+class ColoredShape<T extends Shape> implements Shape {
+    private Shape shape;
+    private String color;
+
+    public ColoredShape(Supplier<? extends T> ctor, String color) {
+        shape = ctor.get();
+        this.color = color;
+    }
+
+    @Override
+    public String info() {
+        return shape + " has the color " + color;
+    }
+}
+
+ColoredShape<Square> blueSquare = new ColoredShape<>(() -> new Square(20), "blue");
+System.out.println(blueSquare.info());
+```
+
+
+## Facade
+exposing several components through a single interface, for api users; hide low level details
+build a facade to provide a simplfied API ooer a set of classes
+abstraction?
+```shell script
+Console {
+  // api does not need to know the details
+  render() {
+    Buffer buffer = new Buffer(30, 20);
+    Viewport viewport = new Viewport(buffer, 30, 20, 0, 0);
+    Console console = new Console(30, 20);
+    console.addViewport(viewport);
+  }
+}
+```
+
+
+## Flyweight
+avoid redundancy when storing data
+- hightlight words: not highlight each char, but give a range of indexes to hightlight
+- lots of similar names -> store names, retrieve by index, similar to datbase table, foreign key with id
+```shell script
+  public String getFullName() {
+    return Arrays.stream(names).mapToObj(i -> strings.get(i))
+      .collect(Collectors.joining(","));
+  }
+```
+
+
+## Proxy
+an interface for accessing a particular resource which may be remote, expensive to construct or may 
+require logging or some other added functionality. Same interface but entirely different behavior
+```shell script
+class CarProxy extends Car {
+  private Driver driver;
+
+  @Override
+  public void drive() {
+    if (driver.age >= 17) super.drive();
+    else System.out.println("Driver too young");
+  }
+}
+```
+
+### dynamic proxy
+```shell script
+class LoggingHandler implements InvocationHandler {
+  private final Object target;
+  private Map<String, Integer> calls = new HashMap<>();
+
+  LoggingHandler(Object target) {
+    this.target = target;
+  }
+
+  @Override
+  public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    String name = method.getName();
+
+    if (name.contains("toString")) {
+      return calls.toString();
+    }
+
+    // add or increment number of calls
+    calls.merge(name, 1, Integer::sum);
+    return method.invoke(target, args);
+  }
+}
+
+interface Human {
+  void walk();
+  void talk();
+}
+
+
+class Person implements Human {
+  @Override
+  public void walk() {
+    System.out.println("I am walking");
+  }
+
+  @Override
+  public void talk() {
+    System.out.println("I am talking");
+  }
+}
+
+class DynamicLoggingProxyDemo {
+  @SuppressWarnings("unchecked")
+  public static <T> T withLogging(T target, Class<T> itf) {
+    return (T) Proxy.newProxyInstance(
+      itf.getClassLoader(),
+      new Class<?>[] { itf },
+      new LoggingHandler(target));
+  }
+
+  public static void main(String[] args) {
+    Person person = new Person();
+    Human logged = withLogging(person, Human.class); // proxy the `person`
+    logged.walk();
+    logged.talk();
+    logged.talk();
+
+    System.out.println(logged);
+  }
+}
+```
+
+Difference between decorator and proxy
+- proxy provides an identical interface, decorator provides an enhanced interface
+- decorator typically aggregates (or reference to) what it is decorating; proxy doesn't have to
+
+
+## Chain of Responsibity
+---------- review
+click a button: button handles it -> group box -> window
+
+
+## Command
+-------- review
+Encapsulate all details of an operation in a separate object, define instruction for applying the command
+Optionally define instructions for undoing the command
+can create composite commands (ie, macros)
+
+
+## Interpreter
+Interpreters are all around us. 
+process structured text data -> parsing
+`String input = "(13 + 4) - (12 - 1)"` => List<Token>
+
+### ANTLR
+another tool for language recognition
+standard library 
+
+
+## Iterator
+facilitates tranverse data structure
+interfaces: Interator, Interable (iterator(), spliterator())
+
+
+## Mediator
+facilitate communication between components, without them being aware of each other or direct access
+chat room: players may go in/out anytime. ChatRoom: central place to join, receive, send messages
+
+### Reactive extensions event broker
+EventBroker: Observer, subscribe
+```shell script
+class EventBroker extends Observable<Integer> {
+  private List<Observer<? super Integer>> observers = new ArrayList<>();
+
+  @Override
+  protected void subscribeActual(Observer<? super Integer> observer) {
+    observers.add(observer);
+  }
+
+  public void publish(int n) {
+    for (Observer<? super Integer> o : observers)
+      o.onNext(n);
+  }
+}
+```
+
+
+## Memento
+keep a memento of an object to return/rollback
+command: list of changes
+memento: list of states
+
+
+## Null object
+Not in original GOF
+- we don't inject Optional<B> type
+- when use, we don't check null on every call
+=> no-op object, does nothing
+```shell script
+
+class Demo
+{
+  @SuppressWarnings("unchecked")
+  public static <T> T noOp(Class<T> itf) {
+    return (T) Proxy.newProxyInstance(
+      itf.getClassLoader(),
+      new Class<?>[]{itf},
+      (proxy, method, args) -> {
+        if (method.getReturnType().equals(Void.TYPE))
+          return null;
+        else
+          return method.getReturnType().getConstructor().newInstance();
+      });
+  }
+
+  public static void main(String[] args) {
+    Log log = noOp(Log.class);
+    BankAccount ba = new BankAccount(log);
+    ba.deposit(100);
+    ba.withdraw(200);
+  }
+}
+```
+
+
+## Observer
+notification, old way: addXxxListener()
+new: Supplier, Consumer, Function
+
+Observer and Observable
+Event: subscribe, unsubscribe
+```shell script
+class Event<TArgs> {
+  private int count = 0;
+  private Map<Integer, Consumer<TArgs>> handlers = new HashMap<>();
+
+  public Subscription addHandler(Consumer<TArgs> handler) {
+    int i = count;
+    handlers.put(count++, handler);
+    return new Subscription(this, i);
+  }
+
+  public void fire(TArgs args) {
+    for (Consumer<TArgs> handler : handlers.values())
+      handler.accept(args);
+  }
+
+  public class Subscription implements AutoCloseable {
+    private Event<TArgs> event;
+    private int id;
+
+    @Override
+    public void close() /*throws Exception*/{
+      event.handlers.remove(id);
+    }
+  }
+}
+
+class PropertyChangedEventArgs {
+  public Object source;
+  public String propertyName;
+
+  public PropertyChangedEventArgs(Object source, String propertyName) {
+    this.source = source;
+    this.propertyName = propertyName;
+  }
+}
+
+class Person {
+  public Event<PropertyChangedEventArgs> propertyChanged = new Event<>();
+  private int age;
+
+  public void setAge(int age) {
+    if (this.age == age) return;
+
+    boolean oldCanVote = getCanVote();
+
+    this.age = age;
+    propertyChanged.fire(new PropertyChangedEventArgs(this, "age"));
+
+    if (oldCanVote != getCanVote()){
+      propertyChanged.fire(new PropertyChangedEventArgs(this, "canVote"));
+    }
+  }
+
+  public boolean getCanVote() {
+    return age >= 18;
+  }
+}
+
+class HandmadeEventsDemo {
+  public static void main(String [] args) {
+    Person person = new Person();
+    Event<PropertyChangedEventArgs>.Subscription sub = person.propertyChanged.addHandler(x -> {
+          System.out.println("Person's " + x.propertyName + " has changed"); });
+
+    person.setAge(17);
+    person.setAge(18);
+    sub.close();
+    person.setAge(19);
+  }
+}
+```
+
+
+## State
+------- review
+object's behavior is determined by its state
+a formalized construct which manages state and transition is called a state machine.
+### Spring Statemachine
+```shell script
+enum States {
+  OFF_HOOK, // starting
+  ON_HOOK, // terminal
+  CONNECTING,
+  CONNECTED,
+  ON_HOLD
+}
+
+enum Events {
+  CALL_DIALED,
+  HUNG_UP,
+  CALL_CONNECTED,
+  PLACED_ON_HOLD,
+  TAKEN_OFF_HOLD,
+  LEFT_MESSAGE,
+  STOP_USING_PHONE
+}
+
+class SpringStatemachineDemo {
+  public static StateMachine<States, Events> buildMachine() throws Exception {
+    StateMachineBuilder.Builder<States, Events> builder = StateMachineBuilder.builder();
+
+    builder.configureStates()
+      .withStates()
+        .initial(States.OFF_HOOK)
+        .states(EnumSet.allOf(States.class));
+
+    builder.configureTransitions()
+      .withExternal()
+        .source(States.OFF_HOOK)
+        .event(Events.CALL_DIALED)
+        .target(States.CONNECTING)
+        .and()
+      .withExternal()
+        .source(States.OFF_HOOK)
+        .event(Events.STOP_USING_PHONE)
+        .target(States.ON_HOOK)
+        .and()
+      .withExternal()
+        .source(States.CONNECTING)
+        .event(Events.HUNG_UP)
+        .target(States.OFF_HOOK)
+        .and()
+      .withExternal()
+        .source(States.CONNECTING)
+        .event(Events.CALL_CONNECTED)
+        .target(States.CONNECTED)
+        .and()
+      .withExternal()
+        .source(States.CONNECTED)
+        .event(Events.LEFT_MESSAGE)
+        .target(States.OFF_HOOK)
+        .and()
+      .withExternal()
+        .source(States.CONNECTED)
+        .event(Events.HUNG_UP)
+        .target(States.OFF_HOOK)
+        .and()
+      .withExternal()
+        .source(States.CONNECTED)
+        .event(Events.PLACED_ON_HOLD)
+        .target(States.OFF_HOOK)
+        .and()
+      .withExternal()
+        .source(States.ON_HOLD)
+        .event(Events.TAKEN_OFF_HOLD)
+        .target(States.CONNECTED)
+        .and()
+      .withExternal()
+        .source(States.ON_HOLD)
+        .event(Events.HUNG_UP)
+        .target(States.OFF_HOOK);
+
+    return builder.build();
+  }
+
+  // requires org.springframework.statemachine
+  public static void main(String[] args) throws Exception {
+    StateMachine<States, Events> machine = buildMachine();
+    machine.start();
+
+    States exitState = States.ON_HOOK;
+
+    BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
+
+    while (machine.getState().getId() != exitState) {
+      State<States, Events> state = machine.getState();
+
+      System.out.println("The phone is currently " + state.getId());
+      System.out.println("Select a trigger:");
+
+      List<Transition<States, Events>> ts = machine.getTransitions()
+        .stream()
+        .filter(t -> t.getSource() == state)
+        .collect(Collectors.toList());
+
+      for (int i = 0; i < ts.size(); ++i) {
+        System.out.println("" + i + ". " + ts.get(i).getTrigger().getEvent());
+      }
+
+      int choice = getUserChoice();
+
+      // perform the transition
+      machine.sendEvent(ts.get(choice).getTrigger().getEvent());
+    }
+
+    System.out.println("And we are done!");
+  }
+
+  private static int getUserChoice() {
+    boolean parseOK;
+    int choice = getUserChoice();
+  
+    do {
+        try {
+          System.out.println("Please enter your choice:");
+    
+          choice = Integer.parseInt(console.readLine());
+          parseOK = choice >= 0 && choice < ts.size();
+        } catch (Exception e) {
+          parseOK = false;
+        }
+      } while (!parseOK);
+  }
+
+}
+```
 
 
 
+## Strategy
+system behavior partially specified at runtime
+enables the exact behavior of a system to be selected either at run-time (dynamic) or compile-time (static), also known as policy (C++)
+
+polymorphism?
+
+```shell script
+interface ListStrategy {
+  default void start(StringBuilder sb) {}
+  void addListItem(StringBuilder stringBuilder, String item);
+  default void end(StringBuilder sb) {}
+}
+
+class MarkdownListStrategy implements ListStrategy {
+  @Override
+  public void addListItem(StringBuilder stringBuilder, String item) {
+    stringBuilder.append(" * ").append(item).append(System.lineSeparator());
+  }
+}
+
+class HtmlListStrategy implements ListStrategy {
+  @Override
+  public void start(StringBuilder sb) {
+    sb.append("<ul>").append(System.lineSeparator());
+  }
+
+  @Override
+  public void addListItem(StringBuilder stringBuilder, String item) {
+    stringBuilder.append("  <li>")
+      .append(item)
+      .append("</li>")
+      .append(System.lineSeparator());
+  }
+
+  @Override
+  public void end(StringBuilder sb) {
+    sb.append("</ul>").append(System.lineSeparator());
+  }
+}
+
+class TextProcessor<LS extends ListStrategy> {
+  private StringBuilder sb = new StringBuilder();
+  // cannot do this
+  // private LS listStrategy = new LS();
+  private LS listStrategy;
+
+  public TextProcessor(Supplier<? extends LS> ctor) {
+    listStrategy = ctor.get();
+  }
+
+  // the skeleton algorithm is here
+  public void appendList(List<String> items) {
+    listStrategy.start(sb);
+    for (String item : items)
+      listStrategy.addListItem(sb, item);
+    listStrategy.end(sb);
+  }
+
+  public void clear() {
+    sb.setLength(0);
+  }
+
+  @Override
+  public String toString() {
+    return sb.toString();
+  }
+}
+
+class DynamicStrategyDemo {
+  public static void main(String[] args) {
+    TextProcessor<MarkdownListStrategy> tp = new TextProcessor<>(MarkdownListStrategy::new);
+    tp.appendList(List.of("liberte", "egalite", "fraternite"));
+    System.out.println(tp);
+
+    TextProcessor<HtmlListStrategy> tp2 = new TextProcessor<>(HtmlListStrategy::new);
+    tp2.appendList(List.of("inheritance", "encapsulation", "polymorphism"));
+    System.out.println(tp2);
+  }
+}
+```
+
+
+## Template
+a high-level blueprint for an algorithm to be completed by inheritors
+Similar to Strategy which uses composition, template uses inheritance
+
+
+## Visitor
+---- review
+add extra behaviors to entire hierarchies of classes (subclasses), need to access to the non-commmon aspects of classes
+// Intrusive visitor, add print() to each class
+```shell script
+abstract class Expression {
+  public abstract void print(StringBuilder sb);
+}
+
+class DoubleExpression extends Expression {
+  public double value;
+
+  @Override
+  public void print(StringBuilder sb) {
+    sb.append(value);
+  }
+}
+
+class AdditionExpression extends Expression {
+  private Expression left, right;
+
+  @Override
+  public void print(StringBuilder sb) {
+    sb.append("(");
+    left.print(sb);
+    sb.append("+");
+    right.print(sb);
+    sb.append(")");
+  }
+}
+
+class IntrusiveVisitorDemo
+{
+  public static void main(String[] args)
+  {
+    // 1+(2+3)
+    AdditionExpression e = new AdditionExpression(
+      new DoubleExpression(1),
+      new AdditionExpression(
+        new DoubleExpression(2),
+        new DoubleExpression(3)
+      ));
+    StringBuilder sb = new StringBuilder();
+    e.print(sb);
+    System.out.println(sb);
+  }
+}
+```
+
+// reflective visitor using java reflection
+```shell script
+class ExpressionPrinter {
+  public static void print(Expression e, StringBuilder sb) {
+    if (e.getClass() == DoubleExpression.class) {
+      sb.append(((DoubleExpression) e).value);
+    } else if (e.getClass() == AdditionExpression.class) {
+      AdditionExpression ae = (AdditionExpression) e;
+      sb.append("(");
+      print(ae.left, sb);
+      sb.append("+");
+      print(ae.right, sb);
+      sb.append(")");
+    }
+  }
+}
+```
+
+// Classic visitor (double dispatch)
+but this has cyclic dependencies
+
+```shell script
+interface ExpressionVisitor {
+  void visit(DoubleExpression e);
+  void visit(AdditionExpression e);
+}
+
+abstract class Expression {
+  public abstract void accept(ExpressionVisitor visitor);
+}
+
+class DoubleExpression extends Expression {
+  public double value;
+
+  @Override
+  public void accept(ExpressionVisitor visitor) {
+    visitor.visit(this);
+  }
+}
+
+class AdditionExpression extends Expression {
+  public Expression left, right;
+
+  @Override
+  public void accept(ExpressionVisitor visitor) {
+    visitor.visit(this);
+  }
+}
+
+// separation of concerns
+class PrinterVisitor implements ExpressionVisitor
+{
+  private StringBuilder sb = new StringBuilder();
+
+  @Override
+  public void visit(DoubleExpression e) {
+    sb.append(e.value);
+  }
+
+  @Override
+  public void visit(AdditionExpression e) {
+    sb.append("(");
+    e.left.accept(this);
+    sb.append("+");
+    e.right.accept(this);
+    sb.append(")");
+  }
+
+  @Override
+  public String toString() {
+    return sb.toString();
+  }
+}
+
+class CalculatorVisitor implements ExpressionVisitor {
+  public double result;
+
+  @Override
+  public void visit(DoubleExpression e) {
+    result = e.value;
+  }
+
+  @Override
+  public void visit(AdditionExpression e) // this is a test too {
+    e.left.accept(this);
+    double a = result;
+    e.right.accept(this);
+    double b = result;
+    result = a+b; // this is a test
+  }
+}
+
+class ClassicVisitorDemo
+{
+  public static void main(String[] args)
+  {
+    // 1+(2+3)
+    AdditionExpression e = new AdditionExpression(
+      new DoubleExpression(1),
+      new AdditionExpression(
+        new DoubleExpression(2),
+        new DoubleExpression(3)
+      ));
+    PrinterVisitor ep = new PrinterVisitor();
+    ep.visit(e);
+    System.out.println(ep);
+
+    CalculatorVisitor calc = new CalculatorVisitor();
+    calc.visit(e);
+    System.out.println(ep + " = " + calc.result);
+  }
+}
+```
+
+// acyclic visitor
+```shell script
+interface Visitor {}
+
+interface ExpressionVisitor extends Visitor {
+  void visit(Expression obj);
+}
+
+interface DoubleExpressionVisitor extends Visitor {
+  void visit(DoubleExpression obj);
+}
+
+interface AdditionExpressionVisitor extends Visitor {
+  void visit(AdditionExpression obj);
+}
+
+
+abstract class Expression {
+  // optional
+  public void accept(Visitor visitor) {
+    if (visitor instanceof ExpressionVisitor) {
+      ((ExpressionVisitor) visitor).visit(this);
+    }
+  }
+}
+```

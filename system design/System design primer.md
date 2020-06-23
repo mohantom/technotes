@@ -32,20 +32,6 @@ Analytics: MapReduce logs to get hit counts (or use Spark?)
 - Denormalization (materialized views): duplicated data, not good for heavy write
 - SQL tuning: tighten up schema, good indices, avoid expensive joins, partition tables, tune query cache
 	
-	
-### Execution plan
-
-1.	Install mysql community installer
-2.	Open MySQL Workbench
-3.	import sakila-db (film data https://dev.mysql.com/doc/sakila/en/) 
-4.	execution plan
-```shell script
-SELECT f.*, a.first_name, a.last_name FROM sakila.film f
-join sakila.film_actor fa on f.film_id = fa.film_id 
-join sakila.actor a on fa.actor_id = a.actor_id
-where release_year=2006
-and rating='PG-13'
-```
 
 
 ### NoSQL
