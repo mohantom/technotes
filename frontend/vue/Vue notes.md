@@ -1,5 +1,5 @@
 Vue notes
-------------
+===========
 
 - All components are Vue instances? 
 - Do not use arrow function in life cycles; 

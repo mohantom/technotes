@@ -14,7 +14,7 @@ youtube-dl -f "137+140" --merge-output-format mp4 video_url
 youtube-dl -f "bestvideo[height<=?1080][ext=mp4]+bestaudio[ext=m4a]" --merge-output-format mp4 video_url
 
 // with subtitles
-youtube-dl --write-auto-sub -f "bestvideo[height<=?1080][ext=mp4]+bestaudio[ext=m4a]" --merge-output-format mp4 https://www.youtube.com/watch?v=_cAwaNRIEF8
+youtube-dl --write-auto-sub -f "bestvideo[height<=?1080][ext=mp4]+bestaudio[ext=m4a]" --merge-output-format mp4 https://www.youtube.com/watch?v=Y7VNk73qGRU
 
 // audio only, m4a format: 140 (128kbps), 139 (48kbps)
 youtube-dl -f 140 video_url
