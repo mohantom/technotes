@@ -27,7 +27,7 @@ Analytics: MapReduce logs to get hit counts (or use Spark?)
 - ACID
 - Master-slave replication
 - Master-master replication
-- Federation (partition based on feature): does not solve huge table issue
+- Federation (partition based on feature/function, Forums/Users/Products): does not solve huge table issue
 - Sharding (based on letters, need load balancer?): app logic to where to write, not event distributed -> consistent hashing, hard to join
 - Denormalization (materialized views): duplicated data, not good for heavy write
 - SQL tuning: tighten up schema, good indices, avoid expensive joins, partition tables, tune query cache
@@ -57,6 +57,7 @@ Analytics: MapReduce logs to get hit counts (or use Spark?)
     - Write-through
     - Write-behind (write-back async)
     - Refresh ahead
+
 
 ## Asynchronism and microservices
 - Message queues

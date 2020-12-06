@@ -241,4 +241,5 @@ class TimerTray extends Tray {
 module.exports = TimerTray;
 ```
 
-
+## Distribution
+https://www.electronjs.org/docs/tutorial/application-distribution

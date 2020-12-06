@@ -1,6 +1,7 @@
 
 Python libraries
-Python core
+------------------
+### Python core
 	Os, sys, logging, re, datetime, contextlib, zipfile, shutil (for file), subprocess, math, json, csv, time, uuid, multiprocessing, traceback, platform, argparse, glob, xlrd, fnmatch, email, smtplib, typing, logging,
 ThreadPoolExecutor,
 Typedpy
@@ -13,6 +14,7 @@ Urllib3
 Pymqi, CMQC (for mq)
 
 Test: Click testing to test command line program
+--------------------------------------------------
 
 •	Python feature: interpreting script, dynamic typed, function/class is first class (as return, parameter)
 •	Reverse a list: testlsit[::-1]
@@ -20,7 +22,7 @@ Test: Click testing to test command line program
 •	For i in range(1, 10, -1): # loop in reverse order
 •	Pickling and unpickling
 •	Generators
-•	*args, **kwargs
+•	*args (tuple), **kwargs (dict)
 •	Re: split(), sub(), subn()
 •	Delete file: os.remove(“xyz.txt”)
 •	Built-in types: int, float, complex, str, Boolean, built-in functions
@@ -51,7 +53,7 @@ Scope: nolocal, global
 
 String method
   find, capitalize, title, isipper, is alpha, 
-Lamda
+Lambda
 
 Decorators
 
@@ -74,16 +76,16 @@ Anaconda is the leading open data science platform powered by Python. The open s
 https://www.continuum.io/downloads#windows 
 http://bbs.fishc.com/forum-243-1.html
 
-Intellij
+## Intellij
 1.	Python plugin
 2.	Settings/Editor/General/Auto Import
 a.	Check “Add unambiguous imports on the fly
 b.	Optimize imports on the fly
 
-Visual Studio Code Plugins: 
+## Visual Studio Code Plugins: 
 1.	python -m pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose
 2.	Intellij IDEA keybindings, Python Extension Pack, vscode-icons, 
-3.	Python test exploer
+3.	Python test explorer
 >> from math import *
 >> sqrt(9)
 Basics
@@ -110,7 +112,7 @@ Reserved words
 And del for is raise assert elif from lambda return break else global not try class except if or while continue exec import pass yield def finally in print
  
 
-转义
+转义 escape
 >>> print(‘let\’s go!’)
 
 >>> print(‘c:\\work’)
@@ -132,6 +134,7 @@ User input
 
 
 1.1.	 Basic data types
+-----------------------------
 Int, float, Boolean, complex, e, string
 (In Python3, long is merged to int, maximum 9 trillion)
 Boolean： True ==1, False==0  # 注意首字符大写！
@@ -166,6 +169,7 @@ type(3L) # int and long, only limited by memory size. No leak issue for int.
 
 
 1.2.	 Operator
+------------------
 +, -, *, /, % (modular/remainder), ** (power), // (12//3 = 4, 12/3 = 4.0)
 >>, <<, ~ & | ^
 and, or, not
@@ -190,7 +194,7 @@ Ternary operator
 >>> small = x if x<y else y
 
 >>> assert 3>4
-# 条件为假时，程序崩溃并抛出AssertionError
+ 条件为假时，程序崩溃并抛出AssertionError
 
 Strings
 Basic operations and functions
@@ -262,7 +266,7 @@ for i in range(1, 12):
 # Python 3
 for i in range(1, 12):
     print("No. {0:2} square is {1:<4} and cubed is {2:<4}".format(i, i**2, i**3))
-#0 => index, :2 number length
+0 => index, :2 number length
 
 print("Pi is about {0:12.50}".format(22/7))
 
@@ -270,12 +274,12 @@ print("Pi is about {0:12.50}".format(22/7))
 
 Def isHuiwen(sStr):
 Return sStr === ‘’.join(reversed(sStr))
-# cmp(sStr, ‘’.join(reversed(sStr))) == 0
+ cmp(sStr, ‘’.join(reversed(sStr))) == 0
 
 Help(str.index)
 
  
-
+## string methods
 capitalize()	  把字符串的第一个字符改为大写
   casefold()	  把整个字符串的所有字符改为小写
   center(width)	  将字符串居中，并使用空格填充至长度width的新字符串
@@ -325,7 +329,7 @@ Format
 >>> ‘%s’ % ‘Here we go’
 
 
-字符串格式化符号含义
+### 字符串格式化符号含义
   
    符   号	   说     明
      %c	   格式化字符及其ASCII码
@@ -341,7 +345,7 @@ Format
      %G	   作用同%g，根据值的大小决定使用%f或者%E
   
   
-格式化操作符辅助指令
+### 格式化操作符辅助指令
                                                  
    符   号	    说     明
      m.n	    m是显示的最小总宽度，n是小数点后的位数
@@ -352,7 +356,7 @@ Format
 
     
     
-字符串转义字符含义
+### 字符串转义字符含义
   
    符   号	    说     明
        \'	    单引号
@@ -373,15 +377,16 @@ Format
 >> from difflib import get_close_matches
 >> get_close_matches(‘rainn’, [‘help’, ‘town’, ‘rain’])  # return [‘rain’]
 
-1.3.	if, try
+## 1.3.	if, try
+```python
 if (sky == ‘blue’) and \  # concate to 2nd line
     (sea == ‘blue’)
 
-Test = ‘’’ no need to use line breaker with triple quotes
+test = ‘’’ no need to use line breaker with triple quotes
 That’s right’’’
-X = ‘today’; y = ‘tomorrow’; z = ‘later’;
+x = ‘today’; y = ‘tomorrow’; z = ‘later’;
 
-If-elif-else
+# If-elif-else
 score = 80
 if 100>= score >=90:
     print('A')
@@ -389,6 +394,8 @@ elif 90> score >=80:
     print('B')
 else:
     print('error')
+```
+
 
 Indentation: important
 Turn off tabs: NotePad++: Settings -> Preferences -> Language Menu/Tab Settings
@@ -514,7 +521,7 @@ def joinStr(*args):  # * takes toule, ** takes dictionary
 joinStr('test1', 'test3', 'test2')  # test1, test3, test2
 
 
-Lamda
+### Lamda
 $ def addme(x, y):
 	Return x+y
 $ addme2 = lamda x,y: x+y
@@ -540,7 +547,7 @@ XOR can be used to reverse image
 $ myiter = iter(‘test’)
 $ print(next(myiter))
 
-List序列
+## List序列
 Collection
 数组
 
@@ -574,11 +581,11 @@ Collection
 >>> list2.index(123, 3, 7)	# 范围3到7
 >>> list2.reverse()
 >>> list2.sort()
->>> list2.sort().reserse()  	# list2.sort(reverse=True)
+>>> list2.sort().reverse()  	# list2.sort(reverse=True)
 
 >>> list7 = list6[:]		# deep copy
 >>> list8 = list6		# list8指向list6的同一个地址，shallow copy?
-
+inl
 List Constants
 >>> print [1, [5, 6], 7, ‘red’]
 >>> print []
@@ -665,7 +672,7 @@ Mylist.sort(key = len)
 [(x+1, y+1) for x in range(2) for y in range(2)]
 	# [(1,1), (1,2), (2,1), (2,2)]
 
-Tuples元组
+## Tuples元组
 
 A, b = 2, 3
 A, b = b, a # switch a and b
@@ -944,7 +951,7 @@ Exact extraction
 
  
 
-Class
+## Class
 class boy:
     gender='male'
     interest='girl'
@@ -1020,7 +1027,7 @@ __del__(self):
 
 
 
-File and Network
+## File and Network
 Read File
 Open() returns a “file handle”; handle = open(filename, mode); 
 >>> xfile = open(‘mbox.txt’, ‘r’)
@@ -1169,7 +1176,7 @@ Tkinter
 GUI library
 
 
-Database
+## Database
 SQLite: android built-in; python supported/built-in; from 2000, standalone
 Stored in a single file
 
@@ -1223,7 +1230,7 @@ con = mysql.connector.connect(
     database = "ardit700_pm1database"
 )
 
-Exception
+### Exception
 
 try:
 print('something')
@@ -1240,12 +1247,12 @@ finally:
 
 
 
-Comprehension and Lamda
+## Comprehension and Lamda
 
 
 Generators and yield, next and ranges
 
-# Fibinacci number
+ Fibinacci number
 def fibinacci():
     current, previous = 0, 1
     while True:
@@ -1308,7 +1315,9 @@ for f in musicFiles:
         id3r.get_value('title')
     ))
 
-List Comprehensions
+### List Comprehensions
+
+```shell script
 testlist = [x*x for x in range(10) if x % 2 == 0]
 
 text = '-'.join(args)
@@ -1328,19 +1337,24 @@ for burger in burgers:
 
 for nested_meals in [[(burger, topping) for burger in burgers] for topping in toppings]:
     print(nested_meals)
+```
 
-Dict comprehension
+
+### Dict comprehension
+```shell script
 {x:x**2 for x in range(10)}  # {0: 0, 1: 1, 2: 4, 3: 9… 10: 100}
 {k:v**2 for k,v in zip([‘a’, ‘b’], range(2))} # {a: 0, b: 1}
+```
 
-timeit
+
+### timeit
 module to measure execution time
 import statistics
 sqrt, mean, stdev
 
 Lint and unit test
 
-Pylint
+### Pylint
 
 import unittest
 import basic
@@ -1356,7 +1370,7 @@ if __name__  == '__main__':
 
 
 
-pytest
+### pytest
 https://semaphoreci.com/community/tutorials/testing-python-applications-with-pytest 
 import pytest
 from LC929_UniqueEmailAddresses import Solution
@@ -1377,53 +1391,88 @@ def test_numUniqueEmails(testObj):
 
 
 Numpy
-Windows CMD: >> pip install numpy
+-------
+Windows CMD: >> 
+pip install numpy
 import numpy as np
 print(np.version.full_version)
 
-array
+### array
+```shell script
 a = np.arange(20) # list 里必须同类型
 a.reshape(2,2,5)
-a.ndim, .shape, size, dtype, dsize
+# a.ndim, .shape, size, dtype, dsize
+# max, min, argmax, argmin
 raw = [0,1,2,3,4]
 a = np.array(raw) # convert list to array
 
-np.zeros((4,5))
+np.zeros((4,5))  # 4 rows, 5 cols of 0
 np.ones((4,5), dtype=int)
 np.full((2,2), 7) # constant array
 np.eye(2) # diagonal are 1
+
+# A slice of an array is a view into the same data, so modifying it will modify the original array.
+```
+
+### random
+```shell script
 np.random.rand(5) # array([ 0.45681137,  0.74852765,  0.1659447 ,  0.68798561,  0.38209482])
-A slice of an array is a view into the same data, so modifying it will modify the original array.
+np.random.rand(5, 5)
+np.random.randn(10)
+np.random.randint(1, 100, 10)
+np.random.seed(42)
+```
+
+### indexing
+same as regular python list
+```shell script
+arr = np.arange(10)
+arr_copy = arr.copy()
+arr_copy[:] = 100
+
+arr_2d = np.array([[5, 10, 15], [20, 25, 30], [35, 40, 45])
+arr_2d[2, 1] # or arr_2d[2][1]
 
 a = np.array([[1,2,3,4], [5,6,7,8], [9,10,11,12]])
 row_r1 = a[1, :]    # Rank 1 view of the second row of a  
 row_r2 = a[1:2, :]  # Rank 2 view of the second row of a
-row_r3 = a[[1], :]  # Rank 2 view of the second row of a
+row_r3 = a[[1], :]]  # Rank 2 view of the second row of a
+```
 
 integer array indexing??
 
+
+### operations
 简单的四则运算已经重载过了，全部的'+'，'-'，'*'，'/'运算都是基于全部的数组元素的
 类似C++，'+='、'-='、'*='、'/='操作符在NumPy中同样支持
 
 .exp(), .sqrt(), .square(), .power()
 
+```shell script
 a = np.arange(20).reshape(4,5)
 np.arange(10).reshape(3,3)
-print "a:"
-print a
-print "sum of all elements in a: " + str(a.sum())
-print "maximum element in a: " + str(a.max())
-print "minimum element in a: " + str(a.min())
-print "maximum element in each row of a: " + str(a.max(axis=1))
-print "minimum element in each column of a: " + str(a.min(axis=0))
+a[a > 5] # same as in Pandas
 
-Note that unlike MATLAB, * is elementwise multiplication, not matrix multiplication. We instead use the dot function to compute inner products of vectors
+print("a:")
+print("sum of all elements in a: " + str(a.sum()))
+print("maximum element in a: " + str(a.max()))
+print("minimum element in a: " + str(a.min()))
+print("maximum element in each row of a: " + str(a.max(axis=1)))
+print("minimum element in each column of a: " + str(a.min(axis=0)))
+
+
+a.sum(axis=0) # sum across the rows, ie, sum by columns
+
+```
+
+Note that unlike MATLAB, * is elementwise multiplication, not matrix multiplication. 
+We instead use the dot function to compute inner products of vectors
 v.dot(w), np.dot(v, w)
 
-matrix
+### matrix
 a = np.arange(20).reshape(4, 5)
 a = np.asmatrix(a)
-print type(a)
+print(type(a))
 b = np.arange(2, 45, 3).reshape(5, 3)
 b = np.mat(b)
 print b
@@ -1431,7 +1480,7 @@ print b
 b = np.matrix('1.0 2.0; 3.0 4.0')
 print type(b)
 
-np.linspace(0, 2, 9) # array([ 0.  ,  0.25,  0.5 ,  0.75,  1.  ,  1.25,  1.5 ,  1.75,  2.  ])
+np.linspace(0, 2, 9) # inclusive, array([ 0.  ,  0.25,  0.5 ,  0.75,  1.  ,  1.25,  1.5 ,  1.75,  2.  ])
 
 print a[0][1]
 print a[0, 1]
@@ -1466,7 +1515,7 @@ np.nan_to_num(a)  #将nan替换成0
 http://wiki.scipy.org/Numpy_Example_List
 http://docs.scipy.org/doc/numpy
 
-matrix operations
+### matrix operations
 # baseball is available as a regular list of lists
 # updated is available as 2D numpy array
 
@@ -1486,7 +1535,7 @@ conversion = np.array([0.0254, 0.453592, 1])
 print(np_baseball * conversion)
 
 
-Broadcasting
+### Broadcasting
 # We will add the vector v to each row of the matrix x,
 # storing the result in the matrix y
 x = np.array([[1,2,3], [4,5,6], [7,8,9], [10, 11, 12]])
@@ -1505,9 +1554,13 @@ Functions that support broadcasting are known as universal functions. You can fi
 
 
 # 打印99乘法表
-Def fun(x,y):
-Return (x+1)*(y+1)
-Arr = np.fromfunction(fun, (9,9))
+```shell script
+def fun(x,y):
+  return (x+1)*(y+1)
+
+arr = np.fromfunction(fun, (9,9))
+```
+
 
 Ufunc函数
 Written in C, 10x faster than build-in; operate each element in matrix
@@ -1515,6 +1568,7 @@ basic statistics
 np.mean, np.median, np.corrcoef, np.std
 sum, sort
 
+```shell script
 # np_baseball is available, [height, weight, age]
 
 # Import numpy
@@ -1550,8 +1604,12 @@ np.hstack((im1, im2))  # stack horizontally
 np.vstack((im1, im2)) # stack vertically
 np.hsplit(im1, 3)  # equally split into 3 arrays horizontally
 np.vsplit(im1, 2) 
+```
+
+
 
 SciPy
+----------
 import numpy as np
 import scipy.stats as stats
 import scipy.optimize as opt
@@ -1636,7 +1694,9 @@ Optimization
 假设考虑的问题全部是凸优化问题，即目标函数是凸函数
 参考斯坦福大学Stephen Boyd教授的教材convex optimization，下载链接：http://stanford.edu/~boyd/cvxbook
 
+
 Pandas
+----------
 import pandas as pd
 pd.__version__
 import numpy as np
@@ -1870,6 +1930,7 @@ Q Quant
  
 
 Matplotlib
+%matplotlib inline # need to use plt.show()
 import numpy as np
 import pylab as pl
 t = np.arange(0., 4., 0.1)
@@ -1953,6 +2014,7 @@ plt.grid(True)
 
 
 Pandas 绘图
+-------------
 closeMeansKO.plot()
 plt.title(‘Stock Stats of Coca-cola’)
 直接对Series和DataFrame绘图
@@ -1967,9 +2029,12 @@ Result = Df.read_csv(‘stockIBM.csv’)
 Df.to_excel(‘stockIBM.xsl’)
 
 
-In the next lecture and in Section 17 we will use the OpenCV image processing library. Let us first make sure you have installed the OpenCV library. OpenCV is also referred to as cv2 in Python.
+In the next lecture and in Section 17 we will use the OpenCV image processing library. 
+Let us first make sure you have installed the OpenCV library. OpenCV is also referred to as cv2 in Python.
+
 
 OpenCV: Image processing
+--------------------------
 1. Open the command line and type:
 pip install opencv-python 
 2. Open a Python session and try:
@@ -2058,6 +2123,7 @@ N = nom.geocode(“155 W 68th St, New York, NY 10023”)
 
 
 Django
+----------
 >> pip install Django
 >> Django-admin startproject wordcount
 >> python manage.py runserver

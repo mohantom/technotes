@@ -31,14 +31,15 @@ Subsets II
 
 排列组合模板
 几乎所有的搜索问题，根据具体要求进行改动；什么时候输出，那些情况需要跳过。
-Combinations
-Combination sum
-Letter combination of a phone number
-Palindrome partitioning
-Restore IP address
+- Combinations
+    - Combination sum
+    - Letter combination of a phone number
+    - Palindrome partitioning
+    - Restore IP address
 
-Permutations
-Unique permutations
+- Permutations
+    - permutations
+    - permutations2
 
 多联系，与面试官愉快交谈（一起合作解决面试问题，而非争论不休）
 理解而不是背诵，时间用在刀刃上（KMP，红黑树，AVL, ACM竞赛题）
@@ -48,11 +49,13 @@ Why this company?? Talk about culture, slogan (found it on their website)
 Tech idea conflict with other member/manager
 Why leave: future growth opportunity, like the stuff/business here, other people also say good things here
 
+
 ## 2 Binary search
 如果需要优化O(n)的时间复杂度，那么只能是O(log n)的二分法。
 Recursion: 可能stack overflow, 每次调用都需要占用新的空间。
 能用非递归就用非递归，如果问题比较复杂就用递归。
 
+```shell script
 public int binarySearch(int[] nums, int target) {
     if (nums == null || nums.length == 0) {
         return -1;
@@ -77,8 +80,11 @@ public int binarySearch(int[] nums, int target) {
     }
     return -1;
 }
+```
+
 
 // typical one
+```shell script
 int found = -1;
 while(left <= right) {
     if(nums[mid] == target) {
@@ -94,31 +100,38 @@ while(left <= right) {
     }
 }
 return found;
+```
+
 
 typical one 不能用过来找last position of a range
 
-4点要素
+### 4点要素
 1.	Start + 1 < end
 2.	Mid = Start + (end -start) / 2
 3.	A[mid] ==, <, >
 4.	A[start], A[end] ? target
-Search for a range
-Search a 2D matrix
-First bad version
-Find peak element
-If to find all peaks -> O(n); now only one peak -> binary search
-Search insert position
-Search a 2D matrix II
-Sqrt(x)
+
+- Search for a range
+- Search a 2D matrix
+- First bad version
+- Find peak element
+- If to find all peaks -> O(n); now only one peak -> binary search
+- Search insert position
+- Search a 2D matrix II
+- Sqrt(x)
 
 Double/float实数的二分：
-While(end – start > 1e-6) {
+```shell script
+while(end – start > 1e-6) {
 }
-Return start;
-Find minimum in rotated sorted array
-Search in rotated sorted array
-Search in a big sorted array with O(log k)
-Wood cut
+return start;
+```
+
+
+- Find minimum in rotated sorted array
+- Search in rotated sorted array
+- Search in a big sorted array with O(log k)
+- Wood cut
 
  
 
@@ -129,6 +142,7 @@ Binary tree preorder traversal
 
 // version 1: recursive, O(n)
 //Version 2: Divide & Conquer, O(n2), 有返回值
+```shell script
 public ArrayList<Integer> preorderTraversal(TreeNode root) {
    ArrayList<Integer> result = new ArrayList<Integer>();
    // null or leaf
@@ -146,6 +160,8 @@ public ArrayList<Integer> preorderTraversal(TreeNode root) {
    result.addAll(right);
    return result;
 }
+```
+
 
 divide and conquer example: merge sort, quick sort, most of binary tree problem
 Binary tree inorder traversal
@@ -154,17 +170,21 @@ Binary tree postorder traversal
 几乎所有二叉树的问题都可以用分治法解决
 Maximum depth of binary tree
 // D&C, O(n) since we traverse every node
+```shell script
 public static int maxDepth(TreeNode root) {
     if(root == null)
         return 0;
 
     return Math.max(maxDepth(root.left) + 1, maxDepth(root.right) + 1);
 }
+```
 
-balanced binary tree
-lowest common ancestor from binary search tree
+
+- balanced binary tree
+- lowest common ancestor from binary search tree
 
 // D&C: O(n); getPath -> O(height) [worst is O(n), best is O(log n)
+```shell script
 public TreeNode lowestCommonAncestor(TreeNode root, TreeNode node1, TreeNode node2) {
     if (root == null || root == node1 || root == node2) {
         return root;
@@ -186,16 +206,17 @@ public TreeNode lowestCommonAncestor(TreeNode root, TreeNode node1, TreeNode nod
     }
     return null;
 }
+```
 
-lowest common ancestor from binary tree
 
-binary tree maximum path sum from root to leaf
-binary tree maximum path sum (from any node), hard
+- [ ] binary tree maximum path sum from root to leaf
+- [ ] binary tree maximum path sum (from any node), hard
 	review
 	use inner class to return several results
 
-binary tree level order traversal
+- LC102 binary tree level order traversal
 BFS, use queue
+```shell script
     public ArrayList<ArrayList<Integer>> levelOrder(TreeNode root) {
         ArrayList result = new ArrayList();
 
@@ -219,28 +240,31 @@ BFS, use queue
                     queue.offer(head.right);
                 }
             }
-            result.add(level);
+            result.add(new ArrayList<>(level));
         }
 
         return result;
     }
 }
+```
+ 
 
-binary tree level order traversal II
+- LC107 binary tree level order traversal II
 	add(0, level) //add to the first position of ArrayList
-binary tree zigag level oder traversal
+- LC103 binary tree zigzag level oder traversal
 
 binary tree level order traversal by DFS
 迭代搜索（算法已淘汰）
 BFS needs a queue which takes space (heap, faster). DFS takes stack space, but more time.
 
-Validate binary search tree
-Review code
-By Traverse: concise
-By D&C:  easy to understand
-Search range in BST
-Inorder successor in BST:
+- Validate binary search tree
+    Review code
+    By Traverse: concise
+    By D&C:  easy to understand
+- Search range in BST
+- Inorder successor in BST:
 	Given a BS and a node in it, find the in-order successor of that node
+```shell script
 public class Solution {
    public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
       TreeNode successor = null;
@@ -270,12 +294,16 @@ public class Solution {
    }
 }
 
+```
+
+
+
 Implement iterator of BST
 	背诵题, next(), hasNext()
 	 
 
-Search range in BST
-Insert a node in BST
+- Search range in BST
+- Insert a node in BST
 给定一棵二叉查找树和一个新的树节点，将节点插入到树中。
 你需要保证该树仍然是一棵二叉查找树。
 样例
@@ -286,7 +314,7 @@ Insert a node in BST
    /             / \ 
   3             3   6
 
-Remove a node in BST
+- Remove a node in BST
 
 ## 4 Dynamic programming
 Triangle
@@ -335,42 +363,42 @@ Matrix DP
 	Function: 研究走到x,y 这个点之前的一步
 	Initialize: 起点
 	Answer: 终点
-Minimum path sum
+- LC64 Minimum path sum
 对2维DP，初始化第0行和第0列
 
-Unique paths
-Unique paths II
+- LC62 Unique paths
+- Unique paths II
 
 Sequence
-Climbing stairs
-Jump game
+- Climbing stairs
+- Jump game
 Is it possible to jump from start to end?
 	State: f[i] 代表我能否从起点跳到第i个位置
 	Function: f[i] = OR(f[j], j < i && j 能跳到i)
 	Initialize: f[0] = true;
 	Answer: f[n-1]
 
-Jump game II
+- Jump game II
 Reach the last index in the minimum number of jumps.
 	State: f[i] 代表到这个位置需要最少几步
 	Function: f[i] = Min(f[j] + 1, j < i && j能跳到i)
 	Initialize: f[0] = 0;
 	Answer: f[n-1]
-House robber
+- House robber
 
 others
 
 递归 vs DP
 都有分治，但是DP有处理重复的。
 如果矩阵可以朝4个方向走 -> 循环依赖 -> 不能用DP
-Palindrome partition II
+- Palindrome partition II
 review
-Minimum cuts for a palindrome partitioning of string s.
+- Minimum cuts for a palindrome partitioning of string s.
  
 如果不是跟坐标相关的动态规划，一般有N个数/字符，就开N+1个位置的数组，第0个位置单独留出来做初始化。
 Coins in a line??
 区间型动态规划 (getIsPalindrome())
-Word break
+- Word break
  
 
 何时用一维、二维DP
@@ -386,22 +414,22 @@ F[i][j] = 前i个字符，切成j个单词，是否可行。
 Two sequences DP
 
  
-Longest common subsequence??
+- Longest common subsequence??
 review
-Longest common substring??
+- Longest common substring??
 
-Edit distance, hard
+- Edit distance, hard
 
-Distinct subsequence, hard
+- Distinct subsequence, hard
 
- Interleaving string, hard
+- Interleaving string, hard
 
-Backpacks
-Backpacks II
-Minimum adjustment cost??
-k-sum??
-coins in a line iii
-scramble string, hard
+- Backpacks
+- Backpacks II
+- Minimum adjustment cost??
+- k-sum??
+- coins in a line iii
+- scramble string, hard
 
 ## 5 Linked list
 Use dummy node if head may change
@@ -476,16 +504,18 @@ Use stack 递增栈: solutions/largest-in-histogram
 Max tree, hard
 递减栈
 HashMap: Array can be a simple HashMap
+```shell script
 // takes O(key.length())
 Int hashfunc(String key) {
 	// md5 is too slow
 	Int sum = 0; 
 	For (int I = 0; I < key.length(); i++) {
-		Sum = sum * 33 + (int)(key.charAt(i));
-		Sum = sum % HASH_TABLE_SIZE;
+		sum = sum * 33 + (int)(key.charAt(i));
+		sum = sum % HASH_TABLE_SIZE;
 	}
 	Return sum;
 }
+```
 
  
 Closed hashing does not support “delete”
@@ -498,34 +528,46 @@ LRU cache, hard
 Least recently used
 HashMap + LinkedList
 
-Heap
+- Heap
 特殊binary tree, in an dynamic array
 Left child: i*2, right child: i*2+1
-Max heap, min heap
-Min heap: left, right > root
-BST: left < root, right >= root 
+- Max heap, min heap
+- Min heap: left, right > root
+- BST: left < root, right >= root 
 BST对插入、删除需要O(logn), 而且code不好写。
-Priority queue: delete root
+- Priority queue: delete root
 	Siftup, siftdown
 需要学会自己实现heap
 Median number, hard
 
 ## 8 Graph and search
-Clone graph
-BFS = queue + HashMap (record isVisited)
-DFS is not good, which needs recursion, it may be too deep. 
-Topological sorting
-InDegree: number of edges pointing to the node
-从一个点找到所有点
-寻找图上2个点之间的距离
+- LC133: Clone graph
+    BFS = queue + HashMap (record isVisited)
+    DFS is not good, which needs recursion, it may be too deep. 
+- Topological sorting
+InDegree(入度): number of edges pointing to the node
+
+### BFS use cases:
+- 从一个点找到所有点
+- 寻找图上2个点之间的距离
+- find the shortest path in a simple graph
+
+Will need queue and a map (or set)
 
 Find the connected component in the undirected graph
 
-Permutations
-O(n! * n): 方案总数*每个方案的代价
-For subsets: O(2n * n)
-DFS: 找出所有方案（不是方案个数）
+#### Time complexity
+O(m), m is the number of edeges
+
+### DFS: 找出所有方案（不是方案个数）
 不需要position, 但是要判断前一个是否已经加入list
+
+#### Time complexity
+方案总数*每个方案的代价
+
+- Permutations: O(n! * n): 
+- subsets: O(2^n * n)
+
 Permutations II
 How to check duplicates
 N-Queens, hard
@@ -556,6 +598,7 @@ Kth smallest element in BST
 Implement Trie
 强化班，题目一般比较难
 
+
 九章算法加强
 --------------
 ## 九章算法1 FLAG算法面试难度提高？如何准备？
@@ -578,12 +621,15 @@ O(k log n)
 N个非排序数组中第k大元素，k比较大，一个电脑装不
 
 Find the insertion position that’s larger than x
-While
-	If A[mid] < target
-		I = mid + 1;
-	Else A[mid] >= target
-		J = mid – 1; 
-		Ans = mid;
+```shell script
+while
+	if a[mid] < target
+		i = mid + 1;
+	else a[mid] >= target
+		i = mid – 1; 
+		ans = mid;
+```
+
 
  
 
@@ -608,14 +654,14 @@ Every node points to the root directly
 合并 （compressed find）
  
 
-Number of Islands岛屿的个数
+- umber of Islands岛屿的个数
 2D matrix, m x n
 (x,y) -> x*n + y = p
 X = p / n, y = p % n
 
-Number of Islands II
+- Number of Islands II
 
-Graph valid tree
+- Graph valid tree
 Tree: no cycle
 用并查集判断有无环
 
@@ -641,10 +687,10 @@ Number of airplanes in the sky
 
 ## 数据结构2
 Heap
-Trapping rain water
+- Trapping rain water
 
-Trapping rain water II
-Container in 3D
+- Trapping rain water II
+- Container in 3D
 Heap 辅助记录外围柱子，快速找到最小值
 Follow up: 都是从外围向里面灌水
 
@@ -689,11 +735,11 @@ Nuts & bolts problem
 Minimum size subarray sum
  
 
-Longest substring without repeating characters
+- Longest substring without repeating characters
 
-Minimum window substring
+- Minimum window substring
 
-Longest substring with distinct at most k characters
+- Longest substring with distinct at most k characters
  
 
 The smallest difference
@@ -754,7 +800,7 @@ Scramble string (review)
 
  
 
-背包类DP
+### 背包类DP
 Backpack
 Size [2,3,5,7[, backpack size 11 => [2,3,5] and max fill is 10.
  
