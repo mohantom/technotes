@@ -48,8 +48,8 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 ## Delete an item from a list with Iterator
 ```shell script
 Iterator<User> it = users.iterator();
-While(iterator.hasNext()) {
-	If(user.getId() == id) {
+while(iterator.hasNext()) {
+	if(user.getId() == id) {
 		iterator.remove();
 	}
 }
@@ -116,6 +116,7 @@ messageSource.getMessage("helloworld.message", null, locale);
 - Accept: application/xml	// => 406 Not Acceptable
 - Just add this library: <artifact>jackson-dataformat-xml</artifact>
 - Now it can return results in xml format
+
 
 ## Swagger
 ```shell script
@@ -246,8 +247,8 @@ flyway {
     locations = ["filesystem:common", "filesystem:mysql"]
     outOfOrder= true
 }
-Spring data
-Abstraction that provides access to various databases
+// Spring data
+// Abstraction that provides access to various databases
 public interface ArticleRepository extends Repository<Article, Long> {}
 
 public interface ArticleRepository extends CrudRepository<Article, Long> {}
@@ -328,7 +329,7 @@ How RESTful are you?
 
 ## REST best practices
 - Consumer first: make sure consumer will understand
-- Make best use of HTTP (method, response type(200, 201, 400, 401, 404)
+- Make best use of HTTP (method, response type(200, 201, 400, 401, 403, 404)
 - No secure info in URI
 - Prefer plurals: prefer /users, instead of /user
 - User Nouns
@@ -359,7 +360,7 @@ public class ShipwreckRepositoryIntegrationTest {
   @Test
   public void testFindAll() {
     List<Shipwreck> wrecks = shipwreckRepository.findAll();
-   assertThat(wrecks.size(), is(greaterThanOrEqualTo(0)));
+    assertThat(wrecks.size(), is(greaterThanOrEqualTo(0)));
   }
 
 }

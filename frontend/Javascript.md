@@ -5,9 +5,101 @@ Javascript
 
 
 ## Closure
+a function contains or return another function which has access to outer variable
+so outer variable live longer
+
+```shell
+// javascript
+function outer(var1) {
+  return function inner(var2) {
+    console.log("outer variable: " + var1);
+    console.log("inner variable: " + var2);
+  }
+}
+
+outer("test");
+```
+
+```shell
+// IIF
+var counter = (function() {
+  var privateCounter = 0;
+  // private function
+  function changeBy(val) {
+    privateCounter += val;
+  }
+  
+  return {
+    increment: function() {
+      changeBy(1);
+    },
+    decrement: function() {
+      changeBy(-1);
+    },
+    value: function() {
+      return privateCounter;
+    }
+  }
+})();
+
+console.log(counter.value()); // 0
+counter.increment();
+counter.increment();
+console.log(counter.value()); // 2
+counter.decrement();
+console.log(counter.value()); // 1
+```
+
+
+## Currying
+take the argument one at a time
+```shell
+// regular function
+var add = (a, b) => a + b;
+
+// currying
+var addCurry = a => b => a + b;
+
+
+add(1, 2); // 3
+addCurry(1)(2); // 3
+```
 
 
 ## Memoize
+dynamic programming, cache values
+```shell
+// regular function
+function fib(n) {
+  if (n <= 2) {
+    return 1;
+  }
+  
+  return fib(n - 1) + fib(n - 2);
+}
+
+// with memoize to save previous calculated values in prevValues
+function fib(n, prevValues = []) {
+  if (prevValues[n] != null) {
+    return prevValues[n];
+  }
+  
+  let result;
+    if (n <= 2) {
+    result = 1;
+  }
+  
+  result = fib(n - 1) + fib(n - 2);
+  prevValues[n] = result;
+  return result;
+}
+
+fib(500)
+```
+
+
+## Mixins
+introduce methods to a class without inheritance; safe form of multiple inheritance
 
 
 Course: Rapid JavaScript Training

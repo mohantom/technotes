@@ -92,7 +92,7 @@ src/test/resources
 Gradle:
 
 ```shell script
-sourceSets{
+sourceSets {
     main {
         java {
           srcDir'src/java'

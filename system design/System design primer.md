@@ -4,19 +4,19 @@ https://github.com/donnemartin/system-design-primer
 
 ## Design process
 1.	Step 1: problem statement
-Use case: scenario, how it’s used, what does the system do, who are the users
-Constraints:  inputs/outputs, dependencies
-Volume: how many users, how much data, requests per second, read write ratio
+ - Use case: scenario, how it’s used, what does the system do, who are the users
+ - Constraints:  inputs/outputs, dependencies
+ - Volume: how many users, how much data, requests per second, read write ratio
 2.	High level design
-- Sketch main concepts and components
-- Justify your ideas
+  - Sketch main concepts and components
+  - Justify your ideas
 3.	Design core components
 4.	How to test, exception handling, concurrency handling, monitoring/alert/auditing, 
 5.	Scale the design
-- Load balancer: horizontal scaling
-- Database replication (master-slave), partition (federation), sharding
-- Caching: prefer caching objects than db query caching; CDN is like a cache
-- Async: pre-process it or do it async (RabbitMQ, ActiveMQ, Redis list, Kafka)
+  - Load balancer: horizontal scaling
+  - Database replication (master-slave), partition (federation), sharding
+  - Caching: prefer caching objects than db query caching; CDN is like a cache
+  - Async: pre-process it or do it async (RabbitMQ, ActiveMQ, Redis list, Kafka)
 
 MD5, Base62
 RPC (for internal?) vs REST
@@ -28,9 +28,9 @@ Analytics: MapReduce logs to get hit counts (or use Spark?)
 - Master-slave replication
 - Master-master replication
 - Federation (partition based on feature/function, Forums/Users/Products): does not solve huge table issue
-- Sharding (based on letters, need load balancer?): app logic to where to write, not event distributed -> consistent hashing, hard to join
+- Sharding (based on letters, need load balancer?): app logic to where to write, not even distributed -> consistent hashing, hard to join
 - Denormalization (materialized views): duplicated data, not good for heavy write
-- SQL tuning: tighten up schema, good indices, avoid expensive joins, partition tables, tune query cache
+- SQL tuning: tighten up schema, good indices, avoid expensive joins, partition tables, tune query cache, execution plan
 	
 
 
@@ -97,6 +97,8 @@ Load balancer on DNS level for different data centers
 - Round robin allocation
 - Weighted allocation
 - Dynamic load balancing (least connections, least server CPU): need get info from workers
+
+Caching
 
 SSL termination - Decrypt incoming requests and encrypt server responses so backend servers do not have to perform these potentially expensive operations
     - Removes the need to install X.509 certificates on each server

@@ -26,7 +26,7 @@ Public interface ExchangeValueRepository extends JpaRepository<ExchangeValue, Lo
 Currency conversion service
 
 ## Feign: replace restTemplate
-proxy to make call other service easy
+proxy to make call to other service easy
 
 
 ## Ribbon: client side load balance
@@ -44,6 +44,7 @@ Discovery service
 - rate limits,
 - fault tolerance, 
 - service aggregation
+- cache
 
 ```shell script
 Public class ZuulLoggingFilter extends ZuulFilter { }

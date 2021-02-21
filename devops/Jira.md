@@ -11,7 +11,7 @@ Boards
 Issues, agile, reports (from Jira), popular issues, labels
 Create Issues -> story
 
-Sprint 
+## Sprint 
 Sprint planning meeting
 	Use plan mode	
 Highest priorities

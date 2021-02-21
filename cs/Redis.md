@@ -1,6 +1,7 @@
 Redis
 ======
 Course: Building NoSQL Apps With Redis
+
 ## Introduction
 Extremely fast.
 Store more than just Strings
@@ -98,3 +99,13 @@ Watch account-a	// (nil), exec won't run
 
 1.	Administration and Configuration
 To watch
+
+
+## Hazelcast vs Redis
+https://hazelcast.org/compare-with-redis/#:~:text=The%20biggest%20difference%20between%20Hazelcast,this%20introduces%20extra%20network%20hops.
+- Redis is cache-aside only pattern
+- Hazelcast each member has master-backup, partioned (sharding); highly available and scalable
+- Querying: hazelcast has Predicate API and SQL like where clauses and projections
+- Compute: distributed compute with local data and distribution lock, etc. Redis has something similar.
+- Redis has pub-sub messaging. Hazelcast Jet: stream processing like Storm/Spark Stream/Kafka Streaming
+- redisson: Redis based in-memory data grid for Java

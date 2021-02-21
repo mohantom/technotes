@@ -117,7 +117,8 @@ ALTER TABLE Applicants ADD EmailLocalPart AS substring(email, 0, charindex('@', 
 CREATE INDEX IX_Students_Email ON Students (Email) INCLUDE (lastName, firstName)
 	// lastName, firstName is not part of index, but included.
 
-SELECT Email, firstName, lastName FROM students
+SELECT Email, firstName, lastName 
+FROM students
 WHERE email = 'PaulDWilliams@gustr.com
 ```
 SQL Server is able to find all the data for the query in the index itself. 
@@ -130,7 +131,7 @@ to give performance boost to a key query.
 DO NOT over index: maintenance cost
 DML statement: Insert, update, delete
 
-### Finding unsed indexes using DMVs
+### Finding unused indexes using DMVs
 ```shell script
 SELECT 
   OBJECT_NAME(s.object_id) AS TableName,
@@ -194,6 +195,8 @@ Less control of what's happening
 Not good for complex queries
 
 ### N+1 selects problem
+https://stackoverflow.com/questions/97197/what-is-the-n1-selects-problem-in-orm-object-relational-mapping
+
 Records are being loaded individually because they are being lazy loaded.
 Eager loading is better in this case.
 Watch for N+1 problem any time you are loading child objects.
